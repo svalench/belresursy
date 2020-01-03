@@ -27,7 +27,7 @@ class Client(models.Model):
 
 class Auto(models.Model):
     id = models.AutoField(primary_key=True)
-    agent = models.OneToOneField(Agent, on_delete=models.CASCADE, default=None)
+    agent = models.OneToOneField(Agent, on_delete=models.CASCADE, null=True)
     number = models.DateTimeField('Номер', max_length=255)
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
@@ -47,7 +47,7 @@ class Auto(models.Model):
 
 class Pricep(models.Model):
     id = models.AutoField(primary_key=True)
-    agent = models.OneToOneField(Agent, on_delete=models.CASCADE, default=None)
+    agent = models.OneToOneField(Agent, on_delete=models.CASCADE, null=True)
     number = models.DateTimeField('Номер', max_length=255)
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
@@ -67,7 +67,7 @@ class Pricep(models.Model):
 
 class Vagon(models.Model):
     id = models.AutoField(primary_key=True)
-    agent = models.OneToOneField(Agent, on_delete=models.CASCADE, default=None)
+    agent = models.OneToOneField(Agent, on_delete=models.CASCADE, null=True)
     number = models.DateTimeField('Номер', max_length=255)
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)

@@ -13,7 +13,7 @@ services:
       dockerfile: Dockerfile
       context: .
     container_name: vzveshivanie_web
-    command: bash -c "python manage.py makemigrations core && python manage.py makemigrations rent &&  python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8012"
+    command: bash -c "python manage.py makemigrations sklad && python manage.py makemigrations vesovay &&  python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8012"
     volumes:
       - .:/code
     ports:
@@ -23,7 +23,10 @@ services:
         ipv4_address: "172.12.0.11"
     depends_on:
       - postgres
-
+  redis:
+    image: "redis:alpine"
+    ports:
+      - 6381:6379
 networks:
   home_sharing:
     driver: bridge

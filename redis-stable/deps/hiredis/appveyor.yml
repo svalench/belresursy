@@ -23,12 +23,12 @@ clone_depth: 1
 
 # Attempt to ensure we don't try to convert line endings to Win32 CRLF as this will cause build to fail
 init:
-    - git config --global core.autocrlf input
+    - git config --global vzveshivanie.autocrlf input
 
 # Install needed build dependencies
 install:
     - ps: 'Start-FileDownload "http://cygwin.com/$env:CYG_SETUP" -FileName "$env:CYG_SETUP"'
-    - '%CYG_SETUP% --quiet-mode --no-shortcuts --only-site --root "%CYG_ROOT%" --site "%CYG_MIRROR%" --local-package-dir "%CYG_CACHE%" --packages automake,bison,gcc-core,libtool,make,gettext-devel,gettext,intltool,pkg-config,clang,llvm > NUL 2>&1'
+    - '%CYG_SETUP% --quiet-mode --no-shortcuts --only-site --root "%CYG_ROOT%" --site "%CYG_MIRROR%" --local-package-dir "%CYG_CACHE%" --packages automake,bison,gcc-vzveshivanie,libtool,make,gettext-devel,gettext,intltool,pkg-config,clang,llvm > NUL 2>&1'
     - '%CYG_BASH% -lc "cygcheck -dc cygwin"'
 
 build_script:

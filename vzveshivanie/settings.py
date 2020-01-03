@@ -25,7 +25,7 @@ SECRET_KEY = 'xx_4(@fatvdn6bq8m_1mz27h0j^ve=zpsdufg&2h9=3@n*gbry'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.sklad',
     'apps.vesovay',
+    'vzveshivanie',
+
 
 ]
 
@@ -130,7 +132,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [('172.12.0.1', 6381)],
         },
     },
 }

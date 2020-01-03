@@ -21,7 +21,6 @@ class AbsAuthVesView(AbsView):
         elif (not request.user or not request.user.client or (request.user.client.user_role == USER_ROLES_SETTINGS[2][0])):
             return self.handle_no_permission()
         else:
-            print(request)
             return dispatch_response
 
 
@@ -77,4 +76,11 @@ class AbsAuthVesView(AbsView):
 
 class StartVesView(AbsAuthVesView):
 
+    template_name = 'vesovay/index.html'
+
+
+class AddVesCarView( AbsAuthVesView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs);
+        #print(context["seriaPricep"])
     template_name = 'vesovay/index.html'

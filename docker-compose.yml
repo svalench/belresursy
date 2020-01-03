@@ -1,0 +1,32 @@
+version: "3.5"
+
+services:
+  postgres:
+    image: postgres
+    container_name: vzveshivanie_postgres
+    networks:
+      home_sharing:
+        ipv4_address: "172.12.0.10"
+
+  web:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: vzveshivanie_web
+    command: bash -c "python manage.py makemigrations core && python manage.py makemigrations rent &&  python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8012"
+    volumes:
+      - .:/code
+    ports:
+      - 8012:8012
+    networks:
+      home_sharing:
+        ipv4_address: "172.12.0.11"
+    depends_on:
+      - postgres
+
+networks:
+  home_sharing:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "172.12.0.0/16"

@@ -35,22 +35,23 @@
 
 
 
-              <form style="color: white;">
+              <form style="color: white;" method="post">
                   {% csrf_token %}
+ <div class="form-group">
   <div class="form-row">
 <div class="form-group col-md-6">
     <div class="form-row border">
     <div class="form-group col-md-7">
       <label for="gosNavto">Номер авто</label>
-      <input type="text" class="form-control" id="gosNavto">
+      <input type="text" class="form-control" id="gosNavto" name="gosNavto">
     </div>
       <div class="form-group col-md-3">
       <label for="seriaAvto">Серия </label>
-      <input type="text" class="form-control" id="seriaAvto">
+      <input type="text" class="form-control" id="seriaAvto" name="seriaAvto">
     </div>
        <div class="form-group col-md-2 ">
       <label for="regionAvto">Регион</label>
-      <input type="text" class="form-control" id="regionAvto">
+      <input type="text" class="form-control" id="regionAvto" name="regionAvto">
     </div>
     </div>
 </div>
@@ -59,15 +60,15 @@
            <div class="form-row border">
     <div class="form-group col-md-7">
       <label for="gosNpricep">Номер прицепа</label>
-      <input type="text" class="form-control" id="gosNpricep">
+      <input type="text" class="form-control" id="gosNpricep" name="gosNpricep">
     </div>
        <div class="form-group col-md-3">
       <label for="seriaPricep">Серия </label>
-      <input type="text" class="form-control" id="seriaPricep">
+      <input type="text" class="form-control" id="seriaPricep" name="seriaPricep">
     </div>
        <div class="form-group col-md-2">
       <label for="regionPricep">Регион</label>
-      <input type="text" class="form-control" id="regionPricep">
+      <input type="text" class="form-control" id="regionPricep" name="regionPricep">
     </div>
            </div>
           </div>
@@ -77,51 +78,51 @@
                         <div class="form-group col-md-3"></div>
   <div class="form-group col-md-6">
     <label for="inputAddress">Номер накладной</label>
-    <input type="number" class="form-control" id="nakladnay" placeholder="1234">
+    <input type="number" class="form-control" id="nakladnay" name="nakladnay" placeholder="1234">
   </div>
                     </div>
-    <div class="form-row">
+    <div class="row">
     <div class="form-group col-md-4">
-      <label for="inVes">Автомоблить на весах</label>
-       <input type="text" class="form-control bg-danger" id="inVes" value="нет" disabled>
+      <label >Автомоблить на весах</label>
+       <input type="text" class="form-control disabled bg-danger " id="inVes" name="inVes" value="нет" >
     </div>
          <div class="form-group col-md-4">
-      <label for="inVes">Направление движения</label>
-      <input type="text" class="form-control" id="kudaAvto" value="нет" disabled>
+      <label>Направление движения</label>
+      <input type="text" class="form-control disabled" name="kudaAvto" id="kudaAvto" value="нет" >
     </div>
     <div class="form-group col-md-4">
-      <label for="truePos">Автомобиль расположен хорошо</label>
-      <input type="text" class="form-control bg-warning" id="gudAvto" value="отсутсвует" disabled>
+      <label >Автомобиль расположен хорошо</label>
+      <input type="text" class="form-control disabled bg-warning text-black-500 " id="gudAvto" name="gudAvto" value="отсутсвует" >
     </div>
-  </div>
+{#  </div>#}
 
 
 
-  <div class="form-row" >
+{#  <div class="form-row" >#}
     <div class="form-group col-md-4 border ">
       <label for="ves">Вес on-line, кг</label>
-      <input type="number" class="form-control" value="0.0" step="0.1" id="ves">
+      <input type="number" class="form-control" value="0.0" step="0.1" id="ves" name="ves">
          <input class="btn btn-success" type="button" onclick="addVesTo()" value="Измерить" />
         <input class="btn btn-secondary"  type="button" value="Обнулить" />
     </div>
 
         <div class="form-group col-md-4 border">
-      <label for="inputZip">ИТОГ, кг</label>
-      <input type="number" class="form-control" id="itogAvto" value="0.0" disabled>
+      <label >ИТОГ, кг</label>
+      <input type="number" class="form-control disabled" id="itogAvto" name="itogAvto" value="0.0" >
     </div>
 
       <div class="form-group col-md-2 border">
-      <label for="inputZip">Измерение 1, кг</label>
-      <input type="number" class="form-control" id="ves1" value="123.0" disabled>
+      <label>Измерение 1, кг</label>
+      <input type="number" class="form-control disabled" id="ves1" name="ves1" value="123.0" >
           <input class="btn btn-success" type="button" id="addVes1" value="применить" />
     </div>
     <div class="form-group col-md-2 border">
-      <label for="inputZip">Измерение 2, кг</label>
-      <input type="number" class="form-control" id="ves2" value="125.12" disabled>
+      <label >Измерение 2, кг</label>
+      <input type="number" class="form-control disabled" id="ves2" name="ves2" value="125.12" >
         <input class="btn btn-success"  type="button" id="addVes2" value="применить" />
     </div>
   </div>
-
+ </div>
   <button type="submit" class="btn btn-primary">Отправить</button>
 </form>
 

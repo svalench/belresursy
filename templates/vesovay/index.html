@@ -449,7 +449,7 @@ if(!chatSocketCOpen){
   chatSocket.onopen = function() {
              chatSocketCOpen= true;
              chatSocketClose=false;
-             $("#statusConnect").html('<span class="badge badge-success">OnLINE</span>');
+             $("#statusConnect").html('<span class="badge badge-success" style="width: 100%;">OnLINE Server</span>');
              $("#noconnectError").hide();
              $("#for_disabled1").removeClass('disabledB');
              $("#for_disabled2").removeClass('disabledB');
@@ -465,7 +465,7 @@ if(!chatSocketCOpen){
         console.error('Chat socket closed unexpectedly');
         chatSocketClose=true;
         chatSocketCOpen= false;
-        $("#statusConnect").html('<span class="badge badge-danger">OFFLINE</span>');
+        $("#statusConnect").html('<span class="badge badge-danger" style="width: 100%;">OFFLINE Server</span>');
         $("#noconnectError").show();
         $("#for_disabled1").addClass('disabledB');
         $("#for_disabled2").addClass('disabledB');

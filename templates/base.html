@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} | MVLab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static 'bootstrap/css/boot.css' %}" >
+</head>
+
+<body link="white";">
+<header class="mt-2  shap" role="banner">
+    <div class="container-fluid">
+        <div class="row"  style="color: white;">
+            <div class="col-md-3 logotip" style="color: white;">
+                <a href="/"><img style="margin: 2%;" src="{% static  'img/logo.png' %}" alt="mvlab.by"></a>
+            </div>
+
+            <div class="col-md-7"></div>
+            <div class="col-md-2 ">
+              <div class="row">
+                    <div class="col-7">
+                <a class="btn btn-warning" href="{% url 'logout' %}"> Выйти</a>
+                    </div>
+                <div class="col-5" id="statusConnect">
+                <span class="badge badge-warning">Подключение</span>
+                    </div>
+                </div>
+                </div>
+
+
+            <div class="col-md-5"> <h3>Система учета || {% block where %}{% endblock %} </h3></div>
+            <div class="col-md-7 top-add"> <h3>Пользователь :  {{ request.user.username }}</h3></div>
+        </div>
+    </div>
+</header>
+{% block content %}
+{% endblock %}
+<script src="{% static 'bootstrap/js/jq.js' %}" ></script>
+<script src="{% static 'bootstrap/js/popper.js' %}"  ></script>
+<script src="{% static 'bootstrap/js/bmin.js' %}"></script>
+
+</body>
+</html>
+
+
+<style>
+    img{max-width:100%;height:auto}
+.logotip img{max-height:90px;width:auto}
+@media (min-width: 768px) {
+.top-add{text-align: right}
+}
+@media (max-width: 767px) {
+.logotip{text-align: center;margin-bottom: 10px}
+}
+    .shap{
+        background-color: #000913;
+    }
+
+.disabledB{
+  pointer-events: none;
+
+  /* for "disabled" effect */
+  opacity: 0.5;
+  background: #CCC;
+}
+</style>
+
+
+
+

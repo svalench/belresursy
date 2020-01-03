@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/boot.css' %}" >
+</head>
+<body>
+<div class="container">
+<div class="row">
+<div class="col-sm text-center" style="margin-top: 10%;">
+{% if form.errors %}
+  <p style="background-color: #fd7e14;">Пароль или пользователь не совпал</p>
+{% endif %}
+</div>
+</div>
+<div class="row">
+{% if next %}
+  {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+  {% else %}
+    <p>Please login to see this page.</p>
+  {% endif %}
+{% endif %}
+<div class="col-sm"></div>
+<div class="col-sm" style="margin-top: 10%;">
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+<table>
+
+<tr>
+  <td>{{ form.username.label_tag }}</td>
+  <td>{{ form.username }}</td>
+</tr>
+
+<tr>
+  <td>{{ form.password.label_tag }}</td>
+  <td>{{ form.password }}</td>
+</tr>
+</table>
+
+<input class="btn btn-success" type="submit" value="Вход" />
+
+</form>
+</div>
+<div class="col-sm"></div>
+</div>
+
+
+</div>
+
+
+<div class="promo">
+	<a href="https://mvlab.by/"><img src="{% static 'img/logo.png' %}" alt="MVLab"></a> ООО «МВЛАБ» разработка  ПО <br><br> <br>г. Минск 2019
+</div>
+
+
+<script src="{% static 'bootstrap/js/jq.js' %}" ></script>
+<script src="{% static 'bootstrap/js/popper.js' %}"  ></script>
+<script src="{% static 'bootstrap/js/bmin.js' %}"></script>
+</body>
+</html>
+
+
+<style>
+    html { height: 100%; }
+body {
+  min-height:100%;
+  position:relative;
+  padding-bottom: 70px;
+}
+.footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50px;
+}
+
+</style>
+
+<style type="text/css">
+	.input{
+		margin-top: 7%;
+		padding: 2%;
+
+	}
+	 .form-control{
+		width: 50%;
+		margin-left: 25%;
+	}
+	.promo{
+
+		margin-top: 6%;
+		text-align: center;
+	}
+    .promo1{
+
+    margin-top: 2%;
+    text-align: center;
+  }
+	label{
+		font-size: large;
+	}
+</style>

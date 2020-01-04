@@ -100,8 +100,10 @@ class AddVesCarView( AbsAuthVesView):
             on_teritory = False
             last_out = datetime.now()
             ves_out = form['itogAvto']
+            a =Auto.objects.filter(number=nomer)
+            af = a.last()
+            print(dir(a))
+            netto =  float(getattr(af, 'ves_in')) -float(ves_out)
+            a.update(status_in = on_teritory, ves_out=ves_out, last_out=last_out,netto_last=netto)
+            return redirect('vesovay:start')
 
-
-        print(nomer)
-        print(form)
-    template_name = 'vesovay/index.html'

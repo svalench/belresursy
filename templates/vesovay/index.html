@@ -186,6 +186,14 @@
 
 
 <script>
+$("#kudaAvtoBool").change(function() {
+    if(this.checked) {
+      $('#nakladnay').attr('required',true);
+    }else{
+        $('#nakladnay').removeAttr('required');
+    }
+});
+
 
     $(document).ready(function() {
         $("#addVes1").click(function () {

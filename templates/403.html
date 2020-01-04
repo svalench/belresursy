@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}403 {% endblock %}
+{% block where %} Отказано в доступе {% endblock %}
+{% block content %}
+<div class="container-fluid text-center">
+<h1>Вам отказано в доступе к данному контенту</h1>
+<img src="{% static 'img/forbiden.svg' %}">
+</div>
+{% endblock %}

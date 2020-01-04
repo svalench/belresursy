@@ -19,7 +19,7 @@ class AbsAuthVesView(AbsView):
         if not hasattr(dispatch_response, 'status_code') or dispatch_response.status_code == 302:
             return dispatch_response
 
-        elif (not request.user or not request.user.client or (request.user.client.user_role == USER_ROLES_SETTINGS[2][0])):
+        elif (not request.user or not request.user.client or (request.user.client.user_role == USER_ROLES_SETTINGS[3][0]) or (request.user.client.user_role == USER_ROLES_SETTINGS[0][0])):
             return self.handle_no_permission()
         else:
             return dispatch_response

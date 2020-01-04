@@ -1,0 +1,16 @@
+<svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <g>
+  <title>background</title>
+  <rect fill="#fff" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <text opacity="0.75" font-style="italic" font-weight="bold" stroke="#080893" transform="rotate(-12 281.64981079101557,96.97560119628902) matrix(11.6890198021174,0,0,6.956844372145919,-1048.7581533691066,-343.5675459852136) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="20" id="svg_1" y="70.238276" x="97.074725" stroke-width="0" fill="#00007f">403</text>
+  <path id="svg_2" d="m29.777481,219.524142l32.003271,-32.003276l33.996578,33.996305l33.996578,-33.996305l32.003572,32.003276l-33.996587,33.996583l33.996587,33.996583l-32.003572,32.003576l-33.996578,-33.996592l-33.996578,33.996592l-32.003271,-32.003576l33.9963,-33.996583l-33.9963,-33.996583z" stroke-width="0" stroke="#080893" fill="#874304"/>
+  <text stroke="#080893" transform="rotate(-5 355.105590820312,225.8136444091796) matrix(1.9864616537078916,0,0,7.595667553062867,-243.58176730051386,-1110.7855491949565) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="20" id="svg_3" y="182.90619" x="212.252124" stroke-opacity="null" stroke-width="0" fill="#bf5f00">отказано в доступе</text>
+ </g>
+</svg>

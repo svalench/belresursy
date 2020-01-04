@@ -84,3 +84,77 @@
 
 
 
+<script>
+    var timer ;
+    var roomName = 'wert';
+    var chatSocketClose=false;
+    var chatSocketCOpen=false;
+    var chatSocket;
+function connectBase() {
+
+if(!chatSocketCOpen){
+                    chatSocket = new WebSocket(
+                     'ws://' + window.location.host + '/ws/');
+}
+  chatSocket.onopen = function() {
+             chatSocketCOpen= true;
+             chatSocketClose=false;
+             $("#statusConnect").html('<span class="badge badge-success" style="width: 100%;">OnLINE Server</span>');
+             $("#noconnectError").hide();
+             $("#for_disabled1").removeClass('disabledB');
+             $("#for_disabled2").removeClass('disabledB');
+             clearInterval(timer);
+               };
+    chatSocket.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        var message = data['message'];
+        document.querySelector('#chat-log').value += (message + '\n');
+        alert('new message');
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+        chatSocketClose=true;
+        $("#statusConnect").html('<span class="badge badge-danger" style="width: 100%;">OFFLINE Server</span>');
+        $("#noconnectError").show();
+        $("#for_disabled1").addClass('disabledB');
+        $("#for_disabled2").addClass('disabledB');
+        if (chatSocketCOpen){
+            reconnectTimer();
+        }
+
+         chatSocketCOpen= false;
+    };
+    {##}
+    {#document.querySelector('#chat-message-input').focus();#}
+    {#document.querySelector('#chat-message-input').onkeyup = function(e) {#}
+    {#    if (e.keyCode === 13) {  // enter, return#}
+    {#        document.querySelector('#chat-message-submit').click();#}
+    {#    }#}
+    {#};#}
+    {##}
+    {#document.querySelector('#chat-message-submit').onclick = function(e) {#}
+    {#    var messageInputDom = document.querySelector('#chat-message-input');#}
+    {#    var message = messageInputDom.value;#}
+    {#    chatSocket.send(JSON.stringify({#}
+    {#        'message': message#}
+    {#    }));#}
+    {##}
+    {#    messageInputDom.value = '';#}
+    {#};#}
+
+
+    }
+
+function reconnectTimer() {
+     timer = setInterval (reconnect, 1000);
+}
+
+  function reconnect() {
+        connectBase();
+         $('#element').toast('show');
+    }
+
+
+connectBase();
+</script>

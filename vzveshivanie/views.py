@@ -43,6 +43,5 @@ def redidrec(request):
     if(request.user.is_anonymous):
         return HttpResponseRedirect(reverse('login'))
     else:
-        print(USER_SUCCESS_LOGIN_REDIRECTS_BY_USER_ROLE)
         response = redirect(USER_SUCCESS_LOGIN_REDIRECTS_BY_USER_ROLE[request.user.client.user_role])
     return response

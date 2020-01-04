@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.decorators import gzip
 from django.views.generic import TemplateView, FormView
 # Create your views here.
+from apps.vesovay.forms import VesAvtoForm
 from vzveshivanie.views import AbsView
 from setting_common import USER_ROLES_SETTINGS
 from cv2 import *
@@ -75,12 +76,15 @@ class AbsAuthVesView(AbsView):
 
 
 class StartVesView(AbsAuthVesView):
-
     template_name = 'vesovay/index.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = VesAvtoForm()
+        return context
 
 class AddVesCarView( AbsAuthVesView):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs);
-        #print(context["seriaPricep"])
+    def post(self, request, *args, **kwargs):
+        form = self.request.POST
+        print(form)
     template_name = 'vesovay/index.html'

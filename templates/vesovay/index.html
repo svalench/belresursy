@@ -35,7 +35,7 @@
 
 
 
-              <form style="color: white;" action="{% url 'vesovay:addcar' %}" method="get">
+              <form style="color: white;" action="{% url 'vesovay:addcar' %}" method="post">
                   {% csrf_token %}
  <div class="form-group">
   <div class="form-row">
@@ -43,15 +43,15 @@
     <div class="form-row border">
     <div class="form-group col-md-7">
       <label for="gosNavto">Номер авто</label>
-      <input type="text" class="form-control" id="gosNavto" name="gosNavto">
+      <input type="text" class="form-control" id="gosNavto"  pattern="([0-9][0-9][0-9][0-9])"  maxlength='4' name="gosNavto" required>
     </div>
       <div class="form-group col-md-3">
       <label for="seriaAvto">Серия </label>
-      <input type="text" class="form-control" id="seriaAvto" name="seriaAvto">
+      <input type="text" class="form-control" id="seriaAvto"  maxlength="2"  pattern="([a-zA-Z][a-zA-Z])" name="seriaAvto" required>
     </div>
        <div class="form-group col-md-2 ">
       <label for="regionAvto">Регион</label>
-      <input type="text" class="form-control" id="regionAvto" name="regionAvto">
+      <input type="text" class="form-control" pattern="([0-9])" id="regionAvto"  maxlength="1" name="regionAvto" required>
     </div>
     </div>
 </div>
@@ -60,15 +60,15 @@
            <div class="form-row border">
     <div class="form-group col-md-7">
       <label for="gosNpricep">Номер прицепа</label>
-      <input type="text" class="form-control" id="gosNpricep" name="gosNpricep">
+      <input type="text" class="form-control" id="gosNpricep" pattern="([0-9][0-9][0-9][0-9])" maxlength="4" name="gosNpricep" >
     </div>
        <div class="form-group col-md-3">
       <label for="seriaPricep">Серия </label>
-      <input type="text" class="form-control" id="seriaPricep" name="seriaPricep">
+      <input type="text" class="form-control"    maxlength="2" id="seriaPricep" name="seriaPricep">
     </div>
        <div class="form-group col-md-2">
       <label for="regionPricep">Регион</label>
-      <input type="text" class="form-control" id="regionPricep" name="regionPricep">
+      <input type="number" class="form-control"  maxlength="1" id="regionPricep"  pattern="([0-9])"  name="regionPricep">
     </div>
            </div>
           </div>
@@ -78,21 +78,22 @@
                         <div class="form-group col-md-3"></div>
   <div class="form-group col-md-6">
     <label for="inputAddress">Номер накладной</label>
-    <input type="number" class="form-control" id="nakladnay" name="nakladnay" placeholder="1234">
+    <input type="text" class="form-control" id="nakladnay" name="nakladnay" pattern="([0-9]{7})"  maxlength='7' placeholder="1234567" required>
   </div>
                     </div>
     <div class="row">
     <div class="form-group col-md-4">
       <label >Автомоблить на весах</label>
-       <input type="text" class="form-control disabled bg-danger " id="inVes" name="inVes" value="нет" >
+       <input type="text" class="form-control bg-danger " id="inVes" name="inVes" readonly value="нет" >
     </div>
-         <div class="form-group col-md-4">
-      <label>Направление движения</label>
-      <input type="text" class="form-control disabled" name="kudaAvto" id="kudaAvto" value="нет" >
+         <div class="form-group col-md-4 text-center">
+      <label >Автомобиль на въезд</label>
+{#      <input type="text" class="form-control disabled" name="kudaAvto" id="kudaAvto" value="нет" >#}
+             <input type="checkbox" class="form-control " name="kudaAvtoBool" id="kudaAvtoBool"  required >
     </div>
     <div class="form-group col-md-4">
       <label >Автомобиль расположен хорошо</label>
-      <input type="text" class="form-control disabled bg-warning text-black-500 " id="gudAvto" name="gudAvto" value="отсутсвует" >
+      <input type="text" class="form-control  bg-warning text-black-500 " id="gudAvto" name="gudAvto" value="отсутсвует" readonly >
     </div>
 {#  </div>#}
 
@@ -108,17 +109,18 @@
 
         <div class="form-group col-md-4 border">
       <label >ИТОГ, кг</label>
-      <input type="number" class="form-control disabled" id="itogAvto" name="itogAvto" value="0.0" >
+      <input type="number" class="form-control" id="itogAvto" name="itogAvto" value="" readonly required >
+             <input class="btn btn-success"  type="button" id="resetItog" value="сброс" />
     </div>
 
       <div class="form-group col-md-2 border">
       <label>Измерение 1, кг</label>
-      <input type="number" class="form-control disabled" id="ves1" name="ves1" value="123.0" >
+      <input type="number" class="form-control" id="ves1" name="ves1" value="123.0" readonly >
           <input class="btn btn-success" type="button" id="addVes1" value="применить" />
     </div>
     <div class="form-group col-md-2 border">
       <label >Измерение 2, кг</label>
-      <input type="number" class="form-control disabled" id="ves2" name="ves2" value="125.12" >
+      <input type="number" class="form-control" id="ves2" name="ves2" value="125.12" readonly >
         <input class="btn btn-success"  type="button" id="addVes2" value="применить" />
     </div>
   </div>
@@ -184,12 +186,16 @@
 
 
 <script>
+
     $(document).ready(function() {
         $("#addVes1").click(function () {
             $("#itogAvto").val($('#ves1').val())
         });
         $("#addVes2").click(function () {
             $("#itogAvto").val($('#ves2').val())
+        });
+        $('#resetItog').click(function () {
+        $("#itogAvto").val('')
         });
     });
 var kuda= 1;
@@ -271,21 +277,21 @@ var kuda= 1;
                         <div class="form-group col-md-3"></div>
   <div class="form-group col-md-6">
     <label for="nakladnayPricep">Номер накладной</label>
-    <input type="number" class="form-control" id="nakladnayPricep" placeholder="1234">
+    <input type="text" class="form-control" id="nakladnayVagon" pattern="([0-9]{7})" required  maxlength='7' placeholder="1234">
   </div>
                     </div>
     <div class="form-row">
     <div class="form-group col-md-4">
       <label for="inVesVagon">Вагон на весах</label>
-       <input type="text" class="form-control bg-danger" id="inVesVagon" value="нет" disabled>
+       <input type="text" class="form-control bg-danger" id="inVesVagon" value="нет" readonly>
     </div>
          <div class="form-group col-md-4">
       <label for="kudaVagon">Направление движения</label>
-      <input type="text" class="form-control" id="kudaVagon" value="нет" disabled>
+      <input type="text" class="form-control" id="kudaVagon" value="нет" readonly>
     </div>
     <div class="form-group col-md-4">
       <label for="gudVagon">Вагон расположен хорошо</label>
-      <input type="text" class="form-control bg-warning" id="gudVagon" value="отсутсвует" disabled>
+      <input type="text" class="form-control bg-warning" id="gudVagon" value="отсутсвует" readonly>
     </div>
   </div>
 

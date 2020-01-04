@@ -1,5 +1,6 @@
 
 import threading
+from datetime import datetime
 
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -7,6 +8,7 @@ from django.views.decorators import gzip
 from django.views.generic import TemplateView, FormView
 # Create your views here.
 from apps.vesovay.forms import VesAvtoForm
+from apps.vesovay.models import Auto
 from vzveshivanie.views import AbsView
 from setting_common import USER_ROLES_SETTINGS
 from cv2 import *
@@ -86,5 +88,20 @@ class StartVesView(AbsAuthVesView):
 class AddVesCarView( AbsAuthVesView):
     def post(self, request, *args, **kwargs):
         form = self.request.POST
+        nomer = form['gosNavto'] + "-" + form['seriaAvto']+ "-" + form['regionAvto']
+        if 'kudaAvtoBool' in form:
+            on_teritory = True
+            last_in = datetime.now()
+            ves_in = form['itogAvto']
+            a = Auto(number = nomer, status_in = on_teritory, ves_in = ves_in, last_in = last_in, nakladnaya=form['nakladnay'])
+            a.save()
+            return redirect('vesovay:start')
+        else:
+            on_teritory = False
+            last_out = datetime.now()
+            ves_out = form['itogAvto']
+
+
+        print(nomer)
         print(form)
     template_name = 'vesovay/index.html'

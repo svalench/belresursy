@@ -3,9 +3,20 @@
 {% block title %} Склад {% endblock %}
 {% block where %} Склад {% endblock %}
 {% block content %}
+<div class="container-fluid" style="padding: 0%;margin:0%;background-color: #000306; min-height: 85vh; color: white; ">
+<ul class="nav nav-tabs" style="background-color: #000306; "  >
+  <li lass="nav-item"><a class="nav-link active"  data-toggle="tab" href="#panel1">Транспорт с автомобильных весов</a></li>
+  <li lass="nav-item"><a  class="nav-link" data-toggle="tab" href="#panel2">Транспорт с железнодорожных весов</a></li>
 
+</ul>
 
-    Sklad
-<a href="{% url 'logout' %}"> Выйти</a>
-
+<div class="tab-content">
+      <div id="panel1" class="tab-pane active" >
+        <h3 style="color: white">Таблица авто</h3>
+      </div>
+     <div id="panel2" class="tab-pane" >
+        <h3 style="color: white">Таблица ЖД транспорта</h3>
+      </div>
+</div>
+</div>
 {% endblock %}

@@ -3,7 +3,7 @@ import threading
 from datetime import datetime
 
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.decorators import gzip
 from django.views.generic import TemplateView, FormView
 # Create your views here.
@@ -83,6 +83,9 @@ class StartVesView(AbsAuthVesView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = VesAvtoForm()
+        print('================================')
+        print(**kwargs)
+        print('================================')
         return context
 
 class AddVesCarView( AbsAuthVesView):
@@ -102,8 +105,11 @@ class AddVesCarView( AbsAuthVesView):
             ves_out = form['itogAvto']
             a =Auto.objects.filter(number=nomer)
             af = a.last()
-            print(dir(a))
-            netto =  float(getattr(af, 'ves_in')) -float(ves_out)
-            a.update(status_in = on_teritory, ves_out=ves_out, last_out=last_out,netto_last=netto)
-            return redirect('vesovay:start')
+            print(dir(af))
+            if(af):
+                netto =  float(getattr(af, 'ves_in')) -float(ves_out)
+                a.update(status_in = on_teritory, ves_out=ves_out, last_out=last_out,netto_last=netto)
+                return redirect('vesovay:start')
+            else:
+                return redirect('vesovay:start')
 

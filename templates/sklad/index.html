@@ -12,10 +12,16 @@
 
 <div class="tab-content">
       <div id="panel1" class="tab-pane active" >
-        <h3 style="color: white">Таблица авто</h3>
+        <h3 style="color: white">Таблица автотранспорта</h3>
+          <form style="color: white;" action="{% url 'vesovay:addcar' %}" method="post">
+                  {% csrf_token %}
+          </form>
       </div>
      <div id="panel2" class="tab-pane" >
         <h3 style="color: white">Таблица ЖД транспорта</h3>
+         <form  action="{% url 'vesovay:addcar' %}" method="post">
+                  {% csrf_token %}
+          </form>
       </div>
 </div>
 </div>

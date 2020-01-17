@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 # Create your views here.
+from apps.vesovay.models import Auto
 from setting_common import USER_ROLES_SETTINGS
 from vzveshivanie.views import AbsView
 
@@ -23,5 +24,14 @@ class AbsAuthSkladView(AbsView):
 class StartSkladView(AbsAuthSkladView):
 
     template_name = 'sklad/index.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get(self, request,**kwargs):
+        auto = Auto.objects.all()
+        print(dir(auto))
+        context = {'auto': auto}
+        return render(request, self.template_name, context)
 
 

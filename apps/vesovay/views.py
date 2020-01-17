@@ -83,9 +83,6 @@ class StartVesView(AbsAuthVesView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = VesAvtoForm()
-        print('================================')
-        print(**kwargs)
-        print('================================')
         return context
 
     def get(self, request, **kwargs):

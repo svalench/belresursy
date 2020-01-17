@@ -13,6 +13,13 @@
 <div class="tab-content">
       <div id="panel1" class="tab-pane active" >
         <h3 style="color: white">Таблица автотранспорта</h3>
+              {% for a in auto %}
+        {{ a.id }}
+        {{ a.date_add }}
+        {{ a.number }}
+                  <br>
+              {% endfor %}
+
           <form style="color: white;" action="{% url 'vesovay:addcar' %}" method="post">
                   {% csrf_token %}
           </form>

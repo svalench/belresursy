@@ -17,7 +17,11 @@
 <div class="alert alert-danger" id="noconnectError" style="margin: auto;" role="alert">
   нет связи с сервером
 </div>
-
+{% if error %}
+    <div class="alert alert-danger" id="noAuto" style="margin: auto;" role="alert">
+      {{ text_error }}
+</div>
+    {% endif %}
 
 
 

@@ -46,10 +46,11 @@
          <td><a href="" {% if a.status_in %} class="btn btn-danger disabled" {% else %}class="btn btn-success" {% endif %}>{{ a.number }}</a></td>
          <td></td>
         <td  >{{ a.last_in }}</td>
-        <td >{{ a.last_out }}</td>
+        <td >{% if a.last_out %} {{ a.last_out }}{% else %} не выезжал {% endif %}</td>
         <td >{{ a.ves_in }}</td>
         <td >{{ a.ves_out }}</td>
-         <td>{{ a.status_in }}</td>
+         <td>{% if a.status_in %}<span class="badge badge-danger" style="width: 100%;">да</span>{% else %}<span class="badge badge-success" style="width: 100%;">нет</span> {% endif %}</td>
+                  <td> <span class="badge badge-danger" style="width: 100%;">НЕТ</span></td>
                   </tr>
               {% endfor %}
         </tbody>

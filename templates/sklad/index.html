@@ -21,26 +21,34 @@
 <div class="tab-content">
       <div id="panel1" class="tab-pane active" >
         <h3 style="color: white">Таблица автотранспорта</h3>
-      <table data-toggle="table" style="color: white;">
+      <table data-toggle="table" data-pagination="true" data-search="true" style="color: white; text-align: center;">
               <thead>
             <tr>
-                <th rowspan="2">id</th>
-                <th rowspan="2">номер</th>
+                <th rowspan="2" data-sortable="true" data-field="id">id</th>
+                <th rowspan="2" >номер</th>
+                <th rowspan="2" >контрагент</th>
                 <th colspan="2">Время</th>
-                <th rowspan="2">Состояние</th>
+                 <th colspan="2">Вес, кг</th>
+                <th rowspan="2">На территории?</th>
+                <th rowspan="2">обработан?</th>
             </tr>
             <tr>
-                <th>въезд</th>
-                <th>выезд</th>
+                <th data-sortable="true">въезд</th>
+                <th data-sortable="true">выезд</th>
+                <th data-sortable="true">въезд</th>
+                <th data-sortable="true">выезд</th>
             </tr>
         </thead>
         <tbody>
               {% for a in auto %}
                   <tr>
-        <td>{{ a.id }}</td>
-        <td>{{ a.number }}</td>
-        <td>{{ a.last_in }}</td>
-        <td>{{ a.last_out }}</td>
+        <td >{{ a.id }}</td>
+         <td><a href="" {% if a.status_in %} class="btn btn-danger disabled" {% else %}class="btn btn-success" {% endif %}>{{ a.number }}</a></td>
+         <td></td>
+        <td  >{{ a.last_in }}</td>
+        <td >{{ a.last_out }}</td>
+        <td >{{ a.ves_in }}</td>
+        <td >{{ a.ves_out }}</td>
          <td>{{ a.status_in }}</td>
                   </tr>
               {% endfor %}
@@ -52,6 +60,8 @@
       </div>
      <div id="panel2" class="tab-pane" >
         <h3 style="color: white">Таблица ЖД транспорта</h3>
+
+
          <form  action="{% url 'vesovay:addcar' %}" method="post">
                   {% csrf_token %}
           </form>

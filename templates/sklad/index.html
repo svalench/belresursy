@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %} Склад {% endblock %}
 {% block where %} Склад {% endblock %}
+
+
 {% block content %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/boot.css' %}" >
+    <link rel="stylesheet" href="{% static 'bootstrap/css/boottable.css' %}" >
+    <script src="{% static 'bootstrap/js/jq.js' %}" ></script>
+<script src="{% static 'bootstrap/js/popper.js' %}"  ></script>
+<script src="{% static 'bootstrap/js/bmin.js' %}"></script>
+     <script src="{% static 'bootstrap/js/bootJsTable.js' %}" ></script>
 <div class="container-fluid" style="padding: 0%;margin:0%;background-color: #000306; min-height: 85vh; color: white; ">
 <ul class="nav nav-tabs" style="background-color: #000306; "  >
   <li lass="nav-item"><a class="nav-link active"  data-toggle="tab" href="#panel1">Транспорт с автомобильных весов</a></li>
@@ -13,13 +21,31 @@
 <div class="tab-content">
       <div id="panel1" class="tab-pane active" >
         <h3 style="color: white">Таблица автотранспорта</h3>
+      <table data-toggle="table" style="color: white;">
+              <thead>
+            <tr>
+                <th rowspan="2">id</th>
+                <th rowspan="2">номер</th>
+                <th colspan="2">Время</th>
+                <th rowspan="2">Состояние</th>
+            </tr>
+            <tr>
+                <th>въезд</th>
+                <th>выезд</th>
+            </tr>
+        </thead>
+        <tbody>
               {% for a in auto %}
-        {{ a.id }}
-        {{ a.date_add }}
-        {{ a.number }}
-                  <br>
+                  <tr>
+        <td>{{ a.id }}</td>
+        <td>{{ a.number }}</td>
+        <td>{{ a.last_in }}</td>
+        <td>{{ a.last_out }}</td>
+         <td>{{ a.status_in }}</td>
+                  </tr>
               {% endfor %}
-
+        </tbody>
+      </table>
           <form style="color: white;" action="{% url 'vesovay:addcar' %}" method="post">
                   {% csrf_token %}
           </form>
@@ -32,4 +58,9 @@
       </div>
 </div>
 </div>
+
+
+
+
+
 {% endblock %}

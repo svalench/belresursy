@@ -29,8 +29,7 @@ class StartSkladView(AbsAuthSkladView):
         return context
 
     def get(self, request,**kwargs):
-        auto = Auto.objects.all()
-        print(dir(auto))
+        auto = Auto.objects.all().order_by('id')
         context = {'auto': auto}
         return render(request, self.template_name, context)
 

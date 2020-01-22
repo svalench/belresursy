@@ -33,4 +33,8 @@ class StartSkladView(AbsAuthSkladView):
         context = {'auto': auto}
         return render(request, self.template_name, context)
 
-
+    def forma(request,id):
+        auto = Auto.objects.filter(id=id)
+        auto = auto[0]
+        context = {'auto': auto}
+        return render(request, 'sklad/forma.html', context)

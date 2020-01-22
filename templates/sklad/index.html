@@ -28,7 +28,7 @@
                 <th rowspan="2" >номер</th>
                 <th rowspan="2" >контрагент</th>
                 <th colspan="2">Время</th>
-                 <th colspan="2">Вес, кг</th>
+                 <th colspan="3">Вес, кг</th>
                 <th rowspan="2">На территории?</th>
                 <th rowspan="2">обработан?</th>
             </tr>
@@ -37,18 +37,20 @@
                 <th data-sortable="true">выезд</th>
                 <th data-sortable="true">въезд</th>
                 <th data-sortable="true">выезд</th>
+                 <th data-sortable="true">нетто</th>
             </tr>
         </thead>
         <tbody>
               {% for a in auto %}
                   <tr>
         <td >{{ a.id }}</td>
-         <td><a href="" {% if a.status_in %} class="btn btn-danger disabled" {% else %}class="btn btn-success" {% endif %}>{{ a.number }}</a></td>
+         <td><a href="{% url 'sklad:formaauto' a.id %}" {% if a.status_in %} class="btn btn-danger disabled" {% else %}class="btn btn-success" {% endif %}>{{ a.number }}</a></td>
          <td></td>
         <td  >{{ a.last_in }}</td>
         <td >{% if a.last_out %} {{ a.last_out }}{% else %} не выезжал {% endif %}</td>
         <td >{{ a.ves_in }}</td>
         <td >{{ a.ves_out }}</td>
+        <td >{{ a.netto_last }}</td>
          <td>{% if a.status_in %}<span class="badge badge-danger" style="width: 100%;">да</span>{% else %}<span class="badge badge-success" style="width: 100%;">нет</span> {% endif %}</td>
                   <td> <span class="badge badge-danger" style="width: 100%;">НЕТ</span></td>
                   </tr>

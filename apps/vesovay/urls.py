@@ -8,5 +8,5 @@ app_name = 'vesovay'
 urlpatterns = [
     path('', StartVesView.as_view(), name= 'start'),
     path('<int:error>/<nomer>/', StartVesView.by_error, name= 'by_erorr'),
-    path('/addCar', AddVesCarView.as_view(), name='addcar')
+    path('addCar', AddVesCarView.as_view(), name='addcar')
 ]

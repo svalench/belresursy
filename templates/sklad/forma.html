@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Склад | Форма {% endblock %}
+{% block where %} заполнение агента {% endblock %}
+
+
+{% block content %}
+<div class="container-fluid" style="padding: 0%;margin:0%;background-color: #000306; min-height: 85vh; color: white; ">
+<h3>Заполнение контрагента для автотранспорта | <a href="{% url 'sklad:start' %}" class="btn btn-primary">НАЗАД</a> </h3>
+    <h4>Госномер: {{ auto.number }}</h4>
+    <h4>дата и время въезда: {{ auto.last_in }}</h4>
+     <h4>дата и время выезда: {{ auto.last_out }}</h4>
+    <h4>Вес на въезде: {{ auto.ves_in }} кг</h4>
+    <h4>Вес на выезде: {{ auto.ves_out }} кг</h4>
+    <h4>Нетто: {{ auto.netto_last }} кг</h4>
+<form>
+
+</form>
+
+</div>
+{% endblock %}

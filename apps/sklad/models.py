@@ -6,6 +6,7 @@ class Agent(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField('Наименование', max_length=255)
     description = models.TextField('Описание', default=None)
+    address = models.TextField('Адрес', default=None)
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
     unp = models.CharField('УНП', max_length=255)

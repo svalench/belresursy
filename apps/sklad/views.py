@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 # Create your views here.
+from apps.sklad.models import Agent
 from apps.vesovay.models import Auto
 from setting_common import USER_ROLES_SETTINGS
 from vzveshivanie.views import AbsView
@@ -38,3 +39,8 @@ class StartSkladView(AbsAuthSkladView):
         auto = auto[0]
         context = {'auto': auto}
         return render(request, 'sklad/forma.html', context)
+
+    def addAgent(request):
+        agent = Agent.objects.all().order_by('id')
+        context = {'agents': agent}
+        return render(request, 'sklad/addagent.html', context)

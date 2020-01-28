@@ -6,4 +6,5 @@ app_name = 'sklad'
 urlpatterns = [
     path('', StartSkladView.as_view(), name = 'start'),
     path('<int:id>/formaauto', StartSkladView.forma, name = 'formaauto'),
+    path('/addagent', StartSkladView.addAgent, name = 'addagent'),
 ]

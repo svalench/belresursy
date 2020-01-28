@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Агенты {% endblock %}
+{% block where %} Агенты {% endblock %}
+
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/boot.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/boottable.css' %}">
+    <script src="{% static 'bootstrap/js/jq.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bmin.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootJsTable.js' %}"></script>
+
+
+    <div class="container-fluid"
+         style="padding: 0%;margin:0%;background-color: #000306; min-height: 85vh; color: white; ">
+
+        <h3 style="color: white">Таблица контрагентов</h3>
+        <table data-toggle="table" data-pagination="true" data-search="true" style="color: white; text-align: center;">
+            <thead>
+            <tr>
+                <th rowspan="2" data-sortable="true" data-field="id">id</th>
+                <th colspan="4">огранизация</th>
+                <th rowspan="2">Адрес</th>
+                <th rowspan="2">Описание</th>
+            </tr>
+            <tr>
+                <th data-sortable="true">УНП</th>
+                <th data-sortable="true">название</th>
+                <th data-sortable="true">добавлена</th>
+                <th data-sortable="true">обновлена</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for a in agents %}
+                <tr>
+                    <td>{{ a.id }}</td>
+                    <td>{{ a.unp }}</td>
+                    <td>{{ a.name}}</td>
+                    <td>{{ a.date_add}}</td>
+                    <td>{{ a.date_update }}</td>
+                    <td>{{ a.address }}</td>
+                    <td>{{ a.description }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}

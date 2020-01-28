@@ -119,7 +119,6 @@ class AddVesCarView( AbsAuthVesView):
             ves_out = form['itogAvto']
             a =Auto.objects.filter(number=nomer)
             af = a.last()
-            print(dir(af))
             if(af):
                 netto =  float(getattr(af, 'ves_in')) -float(ves_out)
                 a.update(status_in = on_teritory, ves_out=ves_out, last_out=last_out,netto_last=netto)

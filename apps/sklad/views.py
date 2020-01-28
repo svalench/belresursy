@@ -44,3 +44,14 @@ class StartSkladView(AbsAuthSkladView):
         agent = Agent.objects.all().order_by('id')
         context = {'agents': agent}
         return render(request, 'sklad/addagent.html', context)
+
+class AddAgentView(AbsAuthSkladView):
+    template_name = 'sklad/addagent.html'
+
+    def post(self, request, *args, **kwargs):
+        form = self.request.POST
+        address = form['address-city'] + ", " + form['address-street']
+        ag = Agent(name = form['name'], address = address, unp= form['unp'], description=form['description'])
+        ag.save()
+        print(ag)
+        return redirect('sklad:addagent')

@@ -1,5 +1,5 @@
 USER_ROLES_SETTINGS = (
-    ('guest', 'Гость', 'login'),
+    ('guest', 'Гость', '/admin'),
     ('operator', 'Оператор', 'vesovay:start'),
     ('admin', 'Администратор', 'sklad:start'),
     ('kladovschik', 'Кладовщик', 'sklad:start')

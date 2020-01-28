@@ -4,551 +4,574 @@
 {% block where %} Взвешивание {% endblock %}
 {% block content %}
 
-<script src="{% static 'bootstrap/js/jq.js' %}" ></script>
-<script src="{% static 'bootstrap/js/util.js' %}" ></script>
+    <script src="{% static 'bootstrap/js/jq.js' %}"></script>
+    <script src="{% static 'bootstrap/js/util.js' %}"></script>
 
 
 
 
-<div class="container-fluid" style="padding-left: 0%;padding-right: 0%; margin:auto; ">
+    <div class="container-fluid" style="padding-left: 0%;padding-right: 0%; margin:auto; ">
+
+
+        <div class="alert alert-danger" id="noconnectError" style="margin: auto;" role="alert">
+            нет связи с сервером
+        </div>
+        {% if error %}
+            <div class="alert alert-danger" id="noAuto" style="margin: auto;" role="alert">
+                {{ text_error }}
+            </div>
+        {% endif %}
 
 
 
-<div class="alert alert-danger" id="noconnectError" style="margin: auto;" role="alert">
-  нет связи с сервером
-</div>
-{% if error %}
-    <div class="alert alert-danger" id="noAuto" style="margin: auto;" role="alert">
-      {{ text_error }}
-</div>
-    {% endif %}
+        <ul class="nav nav-tabs" style="background-color: #000306; ">
+            <li lass="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel1">Автомобильные весы</a></li>
+            <li lass="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">Железнодорожные весы</a></li>
+
+        </ul>
+
+        <div class="tab-content">
+            <div id="panel1" class="tab-pane active"
+                 style="background-color: #000306; min-height: 85vh; padding-left: 1%;padding-right: 0%;">
+                <h3 style="color: white">Измерение на весах - номер или название пункта</h3>
+                <div class="row" style="width: 98vw;">
+                    <div class="col-md-6" id="for_disabled1">
 
 
+                        <form style="color: white;" action="{% url 'vesovay:addcar' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <div class="form-row border">
+                                            <div class="form-group col-md-7">
+                                                <label for="gosNavto">Номер авто</label>
+                                                <input type="text" class="form-control" id="gosNavto"
+                                                       pattern="([0-9][0-9][0-9][0-9])" maxlength='4' name="gosNavto"
+                                                       required>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="seriaAvto">Серия </label>
+                                                <input type="text" class="form-control" id="seriaAvto" maxlength="2"
+                                                       pattern="([a-zA-Z][a-zA-Z])" name="seriaAvto" required>
+                                            </div>
+                                            <div class="form-group col-md-2 ">
+                                                <label for="regionAvto">Регион</label>
+                                                <input type="text" class="form-control" pattern="([0-7])"
+                                                       id="regionAvto" maxlength="1" name="regionAvto" required>
+                                            </div>
+                                        </div>
+                                    </div>
 
-<ul class="nav nav-tabs" style="background-color: #000306; "  >
-  <li lass="nav-item"><a class="nav-link active"  data-toggle="tab" href="#panel1">Автомобильные весы</a></li>
-  <li lass="nav-item"><a  class="nav-link" data-toggle="tab" href="#panel2">Железнодорожные весы</a></li>
+                                    <div class="form-group col-md-6">
+                                        <div class="form-row border">
+                                            <div class="form-group col-md-7">
+                                                <label for="gosNpricep">Номер прицепа</label>
+                                                <input type="text" class="form-control" id="gosNpricep"
+                                                       pattern="([0-9][0-9][0-9][0-9])" maxlength="4" name="gosNpricep">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="seriaPricep">Серия </label>
+                                                <input type="text" class="form-control" maxlength="2" id="seriaPricep"
+                                                       name="seriaPricep">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="regionPricep">Регион</label>
+                                                <input type="number" class="form-control" maxlength="1"
+                                                       id="regionPricep" pattern="([0-7])" name="regionPricep">
+                                            </div>
+                                        </div>
+                                    </div>
 
-</ul>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3"></div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputAddress">Номер накладной</label>
+                                        <input type="text" class="form-control" id="nakladnay" name="nakladnay"
+                                               pattern="([0-9]{7})" maxlength='7' placeholder="1234567" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label>Автомоблить на весах</label>
+                                        <input type="text" class="form-control bg-danger " id="inVes" name="inVes"
+                                               readonly value="нет">
+                                    </div>
+                                    <div class="form-group col-md-4 text-center">
+                                        <label>Автомобиль на въезд</label>
+                                        {#      <input type="text" class="form-control disabled" name="kudaAvto" id="kudaAvto" value="нет" >#}
+                                        <input type="checkbox" class="form-control " name="kudaAvtoBool"
+                                               id="kudaAvtoBool" checked="checked">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Автомобиль расположен хорошо</label>
+                                        <input type="text" class="form-control  bg-warning text-black-500 " id="gudAvto"
+                                               name="gudAvto" value="отсутсвует" readonly>
+                                    </div>
+                                    {#  </div>#}
 
-<div class="tab-content">
-  <div id="panel1" class="tab-pane active" style="background-color: #000306; min-height: 85vh; padding-left: 1%;padding-right: 0%;">
-    <h3 style="color: white">Измерение на весах - номер или название пункта</h3>
-        <div class="row" style="width: 98vw;" >
-          <div class="col-md-6" id="for_disabled1">
+
+                                    {#  <div class="form-row" >#}
+                                    <div class="form-group col-md-4 border ">
+                                        <label for="ves">Вес on-line, кг</label>
+                                        <input type="number" class="form-control" value="0.0" step="0.1" id="ves"
+                                               name="ves">
+                                        <input class="btn btn-success" type="button" onclick="addVesTo()"
+                                               value="Измерить"/>
+                                        <input class="btn btn-secondary" type="button" value="Обнулить"/>
+                                    </div>
+
+                                    <div class="form-group col-md-4 border">
+                                        <label>ИТОГ, кг</label>
+                                        <input type="number" class="form-control" id="itogAvto" name="itogAvto" value=""
+                                               readonly required>
+                                        <input class="btn btn-success" type="button" id="resetItog" value="сброс"/>
+                                    </div>
+
+                                    <div class="form-group col-md-2 border">
+                                        <label>Измерение 1, кг</label>
+                                        <input type="number" class="form-control" id="ves1" name="ves1" value="123.0"
+                                               readonly>
+                                        <input class="btn btn-success" type="button" id="addVes1" value="применить"/>
+                                    </div>
+                                    <div class="form-group col-md-2 border">
+                                        <label>Измерение 2, кг</label>
+                                        <input type="number" class="form-control" id="ves2" name="ves2" value="125.12"
+                                               readonly>
+                                        <input class="btn btn-success" type="button" id="addVes2" value="применить"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Отправить</button>
+                        </form>
 
 
-              <form style="color: white;" action="{% url 'vesovay:addcar' %}" method="post">
-                  {% csrf_token %}
- <div class="form-group">
-  <div class="form-row">
-<div class="form-group col-md-6">
-    <div class="form-row border">
-    <div class="form-group col-md-7">
-      <label for="gosNavto">Номер авто</label>
-      <input type="text" class="form-control" id="gosNavto"  pattern="([0-9][0-9][0-9][0-9])"  maxlength='4' name="gosNavto" required>
-    </div>
-      <div class="form-group col-md-3">
-      <label for="seriaAvto">Серия </label>
-      <input type="text" class="form-control" id="seriaAvto"  maxlength="2"  pattern="([a-zA-Z][a-zA-Z])" name="seriaAvto" required>
-    </div>
-       <div class="form-group col-md-2 ">
-      <label for="regionAvto">Регион</label>
-      <input type="text" class="form-control" pattern="([0-7])" id="regionAvto"  maxlength="1" name="regionAvto" required>
-    </div>
-    </div>
-</div>
+                        <div class="row border" style="color: white; min-height: 20%; margin-top: 2%;">
+                            <div class="col-md-4 border text-center">Светофор на въезд</div>
+                            <div class="col-md-4 border">
+                                <button class="btn-success" style="margin: 2%;">Разрешить въезд</button>
+                                <button class="btn-danger" style="margin: 2%;">Запретить въезд</button>
+                            </div>
+                            <div class="col-md-4 border">
+                                <button class="btn-warning disabled" style="margin: 2%;">Выключить светофор</button>
+                                <button class="btn-success" style="margin: 2%;">Включить светофор</button>
+                            </div>
+                        </div>
 
-      <div class="form-group col-md-6">
-           <div class="form-row border">
-    <div class="form-group col-md-7">
-      <label for="gosNpricep">Номер прицепа</label>
-      <input type="text" class="form-control" id="gosNpricep" pattern="([0-9][0-9][0-9][0-9])" maxlength="4" name="gosNpricep" >
-    </div>
-       <div class="form-group col-md-3">
-      <label for="seriaPricep">Серия </label>
-      <input type="text" class="form-control"    maxlength="2" id="seriaPricep" name="seriaPricep">
-    </div>
-       <div class="form-group col-md-2">
-      <label for="regionPricep">Регион</label>
-      <input type="number" class="form-control"  maxlength="1" id="regionPricep"  pattern="([0-7])"  name="regionPricep">
-    </div>
-           </div>
-          </div>
+                        <div class="row border" style="color: white; min-height: 20%;">
+                            <div class="col-md-4 border text-center">светофор на выеезд</div>
+                            <div class="col-md-4 border">
+                                <button class="btn-success" style="margin: 2%;">Разрешить выезд</button>
+                                <button class="btn-danger" style="margin: 2%;">Запретить выезд</button>
+                            </div>
+                            <div class="col-md-4 border">
+                                <button class="btn-warning disabled" style="margin: 2%;">Выключить светофор</button>
+                                <button class="btn-success" style="margin: 2%;">Включить светофор</button>
+                            </div>
+                        </div>
 
-  </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3"></div>
-  <div class="form-group col-md-6">
-    <label for="inputAddress">Номер накладной</label>
-    <input type="text" class="form-control" id="nakladnay" name="nakladnay" pattern="([0-9]{7})"  maxlength='7' placeholder="1234567" required>
-  </div>
+
                     </div>
-    <div class="row">
-    <div class="form-group col-md-4">
-      <label >Автомоблить на весах</label>
-       <input type="text" class="form-control bg-danger " id="inVes" name="inVes" readonly value="нет" >
-    </div>
-         <div class="form-group col-md-4 text-center">
-      <label >Автомобиль на въезд</label>
-{#      <input type="text" class="form-control disabled" name="kudaAvto" id="kudaAvto" value="нет" >#}
-             <input type="checkbox" class="form-control " name="kudaAvtoBool" id="kudaAvtoBool" checked="checked"  >
-    </div>
-    <div class="form-group col-md-4">
-      <label >Автомобиль расположен хорошо</label>
-      <input type="text" class="form-control  bg-warning text-black-500 " id="gudAvto" name="gudAvto" value="отсутсвует" readonly >
-    </div>
-{#  </div>#}
+                    <div class="col-md-3 text-center">
+                        <div style="height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;">
+                            Camera1
+                            <video style="width: 100%; " controls
+                                   src="https://r3---sn-4g5ednss.googlevideo.com/videoplayback?expire=1579047397&ei=hQUeXqm4L7qGir4P16-tOA&ip=209.107.210.49&id=o-AFQ8gZQ53ClwR8Z5oMcH4jGD7mC7APZuMpQXcZqK996c&itag=18&source=youtube&requiressl=yes&vprv=1&mime=video%2Fmp4&gir=yes&clen=1404131031&ratebypass=yes&dur=15306.222&lmt=1501170431197004&fvip=3&fexp=23842630&c=WEB&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=ALgxI2wwRQIgIG16IWlKVXtCE6oJgL3qz9VEtL4m7sajBD2x4BGwVcUCIQCbfmik4-sKb9TX4kwvt5qPJ0SX5-OAnRTn7tNrFFWQgA%3D%3D&video_id=JHAcW9cU0mY&title=4K+Scenic+Drive+-+4+HRS+Relaxation+Video+with+Music+-+King+Ridge+Road%2C+California&rm=sn-vgqels7s&req_id=a199ec72f71ca3ee&ipbypass=yes&redirect_counter=2&cm2rm=sn-cxauxaxjvh-hn9e77k&cms_redirect=yes&mip=178.120.62.118&mm=30&mn=sn-4g5ednss&ms=nxu&mt=1579025674&mv=m&mvi=2&pl=21&lsparams=ipbypass,mip,mm,mn,ms,mv,mvi,pl&lsig=AHylml4wRQIhAMPcCs4lpG3V2O3c06Gsz_Y8lJfIhpmeBKmEQcX98ahLAiA25XJlyQvQEoUCJiBOqiUdrayvFDthJHhdNSTvRyUq2g=="></video>
+                        </div>
+                        <div style=" height: 35vh; max-width: 95%;  margin: auto; margin-top: 2%;color: #1b1e21;">
+                            <div style="background-color: honeydew;  display: inline-block; height: 100%; width: 50%;">
+                                Сфетофор на выезд
+                                <div class="rounded-circle" id="redViezdAvto"
+                                     style="background-color: #ff000033; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                                <div class="rounded-circle" id="yellowViezdAvto"
+                                     style="background-color: #ffff006b; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                                <div class="rounded-circle" id="greenViezdAvto"
+                                     style="background-color: #0080003d; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                            </div>
+                            <div class="border"
+                                 style="background-color: honeydew; display: inline-block; float: left; height: 100%; width: 50%;">
+                                Светофор на въезд
+                                <div class="rounded-circle" id="redVezdAvto"
+                                     style="background-color: #ff000033; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                                <div class="rounded-circle" id="yellowVezdAvto"
+                                     style="background-color: #ffff006b; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                                <div class="rounded-circle" id="greenVezdAvto"
+                                     style="background-color: #0080003d; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                            </div>
+                        </div>
+                    </div>
 
 
+                    <div class="col-md-3 text-center">
+                        <div style="height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;">
+                            Camera 2
+                            <video style="width: 100%; " controls
+                                   src="https://r3---sn-4g5ednss.googlevideo.com/videoplayback?expire=1579047397&ei=hQUeXqm4L7qGir4P16-tOA&ip=209.107.210.49&id=o-AFQ8gZQ53ClwR8Z5oMcH4jGD7mC7APZuMpQXcZqK996c&itag=18&source=youtube&requiressl=yes&vprv=1&mime=video%2Fmp4&gir=yes&clen=1404131031&ratebypass=yes&dur=15306.222&lmt=1501170431197004&fvip=3&fexp=23842630&c=WEB&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=ALgxI2wwRQIgIG16IWlKVXtCE6oJgL3qz9VEtL4m7sajBD2x4BGwVcUCIQCbfmik4-sKb9TX4kwvt5qPJ0SX5-OAnRTn7tNrFFWQgA%3D%3D&video_id=JHAcW9cU0mY&title=4K+Scenic+Drive+-+4+HRS+Relaxation+Video+with+Music+-+King+Ridge+Road%2C+California&rm=sn-vgqels7s&req_id=a199ec72f71ca3ee&ipbypass=yes&redirect_counter=2&cm2rm=sn-cxauxaxjvh-hn9e77k&cms_redirect=yes&mip=178.120.62.118&mm=30&mn=sn-4g5ednss&ms=nxu&mt=1579025674&mv=m&mvi=2&pl=21&lsparams=ipbypass,mip,mm,mn,ms,mv,mvi,pl&lsig=AHylml4wRQIhAMPcCs4lpG3V2O3c06Gsz_Y8lJfIhpmeBKmEQcX98ahLAiA25XJlyQvQEoUCJiBOqiUdrayvFDthJHhdNSTvRyUq2g=="></video>
 
-{#  <div class="form-row" >#}
-    <div class="form-group col-md-4 border ">
-      <label for="ves">Вес on-line, кг</label>
-      <input type="number" class="form-control" value="0.0" step="0.1" id="ves" name="ves">
-         <input class="btn btn-success" type="button" onclick="addVesTo()" value="Измерить" />
-        <input class="btn btn-secondary"  type="button" value="Обнулить" />
-    </div>
+                        </div>
+                        <div style=" height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;">
+                            Camera 3
+                            <video style="width: 100%; " controls
+                                   src="https://r3---sn-4g5ednss.googlevideo.com/videoplayback?expire=1579047397&ei=hQUeXqm4L7qGir4P16-tOA&ip=209.107.210.49&id=o-AFQ8gZQ53ClwR8Z5oMcH4jGD7mC7APZuMpQXcZqK996c&itag=18&source=youtube&requiressl=yes&vprv=1&mime=video%2Fmp4&gir=yes&clen=1404131031&ratebypass=yes&dur=15306.222&lmt=1501170431197004&fvip=3&fexp=23842630&c=WEB&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=ALgxI2wwRQIgIG16IWlKVXtCE6oJgL3qz9VEtL4m7sajBD2x4BGwVcUCIQCbfmik4-sKb9TX4kwvt5qPJ0SX5-OAnRTn7tNrFFWQgA%3D%3D&video_id=JHAcW9cU0mY&title=4K+Scenic+Drive+-+4+HRS+Relaxation+Video+with+Music+-+King+Ridge+Road%2C+California&rm=sn-vgqels7s&req_id=a199ec72f71ca3ee&ipbypass=yes&redirect_counter=2&cm2rm=sn-cxauxaxjvh-hn9e77k&cms_redirect=yes&mip=178.120.62.118&mm=30&mn=sn-4g5ednss&ms=nxu&mt=1579025674&mv=m&mvi=2&pl=21&lsparams=ipbypass,mip,mm,mn,ms,mv,mvi,pl&lsig=AHylml4wRQIhAMPcCs4lpG3V2O3c06Gsz_Y8lJfIhpmeBKmEQcX98ahLAiA25XJlyQvQEoUCJiBOqiUdrayvFDthJHhdNSTvRyUq2g=="></video>
 
-        <div class="form-group col-md-4 border">
-      <label >ИТОГ, кг</label>
-      <input type="number" class="form-control" id="itogAvto" name="itogAvto" value="" readonly required >
-             <input class="btn btn-success"  type="button" id="resetItog" value="сброс" />
-    </div>
-
-      <div class="form-group col-md-2 border">
-      <label>Измерение 1, кг</label>
-      <input type="number" class="form-control" id="ves1" name="ves1" value="123.0" readonly >
-          <input class="btn btn-success" type="button" id="addVes1" value="применить" />
-    </div>
-    <div class="form-group col-md-2 border">
-      <label >Измерение 2, кг</label>
-      <input type="number" class="form-control" id="ves2" name="ves2" value="125.12" readonly >
-        <input class="btn btn-success"  type="button" id="addVes2" value="применить" />
-    </div>
-  </div>
- </div>
-  <button type="submit" class="btn btn-primary">Отправить</button>
-</form>
-
-
-              <div class="row border" style="color: white; min-height: 20%; margin-top: 2%;">
-                  <div class="col-md-4 border text-center" >Светофор на въезд</div>
-                  <div class="col-md-4 border"> <button class="btn-success" style="margin: 2%;" >Разрешить въезд</button> <button class="btn-danger" style="margin: 2%;" >Запретить въезд</button>  </div>
-                  <div class="col-md-4 border"><button class="btn-warning disabled" style="margin: 2%;" >Выключить светофор</button>
-                   <button class="btn-success" style="margin: 2%;">Включить светофор</button>
-                  </div>
-                  </div>
-
-<div class="row border" style="color: white; min-height: 20%;">
-                  <div class="col-md-4 border text-center">светофор на выеезд </div>
-                  <div class="col-md-4 border"> <button class="btn-success" style="margin: 2%;" >Разрешить выезд</button> <button class="btn-danger" style="margin: 2%;" >Запретить выезд</button>  </div>
-                  <div class="col-md-4 border"><button class="btn-warning disabled" style="margin: 2%;" >Выключить светофор</button>
-                   <button class="btn-success" style="margin: 2%;">Включить светофор</button>
-                  </div>
-              </div>
-
-
-
-
-          </div>
-          <div class="col-md-3 text-center">
-               <div style="height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;">Camera1
-               <video style="width: 100%; " controls  src="https://r3---sn-4g5ednss.googlevideo.com/videoplayback?expire=1579047397&ei=hQUeXqm4L7qGir4P16-tOA&ip=209.107.210.49&id=o-AFQ8gZQ53ClwR8Z5oMcH4jGD7mC7APZuMpQXcZqK996c&itag=18&source=youtube&requiressl=yes&vprv=1&mime=video%2Fmp4&gir=yes&clen=1404131031&ratebypass=yes&dur=15306.222&lmt=1501170431197004&fvip=3&fexp=23842630&c=WEB&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=ALgxI2wwRQIgIG16IWlKVXtCE6oJgL3qz9VEtL4m7sajBD2x4BGwVcUCIQCbfmik4-sKb9TX4kwvt5qPJ0SX5-OAnRTn7tNrFFWQgA%3D%3D&video_id=JHAcW9cU0mY&title=4K+Scenic+Drive+-+4+HRS+Relaxation+Video+with+Music+-+King+Ridge+Road%2C+California&rm=sn-vgqels7s&req_id=a199ec72f71ca3ee&ipbypass=yes&redirect_counter=2&cm2rm=sn-cxauxaxjvh-hn9e77k&cms_redirect=yes&mip=178.120.62.118&mm=30&mn=sn-4g5ednss&ms=nxu&mt=1579025674&mv=m&mvi=2&pl=21&lsparams=ipbypass,mip,mm,mn,ms,mv,mvi,pl&lsig=AHylml4wRQIhAMPcCs4lpG3V2O3c06Gsz_Y8lJfIhpmeBKmEQcX98ahLAiA25XJlyQvQEoUCJiBOqiUdrayvFDthJHhdNSTvRyUq2g=="></video>
-               </div>
-              <div style=" height: 35vh; max-width: 95%;  margin: auto; margin-top: 2%;color: #1b1e21;">
-            <div style="background-color: honeydew;  display: inline-block; height: 100%; width: 50%;">
-            Сфетофор на выезд
-                <div class="rounded-circle" id="redViezdAvto" style="background-color: #ff000033; width: 50%; min-height:30%; margin-left: 20%;"></div>
-                 <div class="rounded-circle" id="yellowViezdAvto" style="background-color: #ffff006b; width: 50%; min-height:30%; margin-left: 20%;"></div>
-                <div class="rounded-circle" id="greenViezdAvto" style="background-color: #0080003d; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="border"  style="background-color: honeydew; display: inline-block; float: left; height: 100%; width: 50%;">
-            Светофор на въезд
-                 <div class="rounded-circle" id="redVezdAvto" style="background-color: #ff000033; width: 50%; min-height:30%; margin-left: 20%;"></div>
-                 <div class="rounded-circle" id="yellowVezdAvto" style="background-color: #ffff006b; width: 50%; min-height:30%; margin-left: 20%;"></div>
-                <div class="rounded-circle" id="greenVezdAvto" style="background-color: #0080003d; width: 50%; min-height:30%; margin-left: 20%;"></div>
-            </div>
-</div>
-          </div>
 
 
-          <div class="col-md-3 text-center">
-                            <div style="height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;">Camera 2
-                            <video style="width: 100%; " controls  src="https://r3---sn-4g5ednss.googlevideo.com/videoplayback?expire=1579047397&ei=hQUeXqm4L7qGir4P16-tOA&ip=209.107.210.49&id=o-AFQ8gZQ53ClwR8Z5oMcH4jGD7mC7APZuMpQXcZqK996c&itag=18&source=youtube&requiressl=yes&vprv=1&mime=video%2Fmp4&gir=yes&clen=1404131031&ratebypass=yes&dur=15306.222&lmt=1501170431197004&fvip=3&fexp=23842630&c=WEB&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=ALgxI2wwRQIgIG16IWlKVXtCE6oJgL3qz9VEtL4m7sajBD2x4BGwVcUCIQCbfmik4-sKb9TX4kwvt5qPJ0SX5-OAnRTn7tNrFFWQgA%3D%3D&video_id=JHAcW9cU0mY&title=4K+Scenic+Drive+-+4+HRS+Relaxation+Video+with+Music+-+King+Ridge+Road%2C+California&rm=sn-vgqels7s&req_id=a199ec72f71ca3ee&ipbypass=yes&redirect_counter=2&cm2rm=sn-cxauxaxjvh-hn9e77k&cms_redirect=yes&mip=178.120.62.118&mm=30&mn=sn-4g5ednss&ms=nxu&mt=1579025674&mv=m&mvi=2&pl=21&lsparams=ipbypass,mip,mm,mn,ms,mv,mvi,pl&lsig=AHylml4wRQIhAMPcCs4lpG3V2O3c06Gsz_Y8lJfIhpmeBKmEQcX98ahLAiA25XJlyQvQEoUCJiBOqiUdrayvFDthJHhdNSTvRyUq2g=="></video>
+            <script>
+                $("#kudaAvtoBool").change(function () {
+                    if (this.checked) {
+                        $('#nakladnay').attr('required', true);
+                    } else {
+                        $('#nakladnay').removeAttr('required');
+                    }
+                });
+
+
+                $(document).ready(function () {
+                    $("#addVes1").click(function () {
+                        $("#itogAvto").val($('#ves1').val())
+                    });
+                    $("#addVes2").click(function () {
+                        $("#itogAvto").val($('#ves2').val())
+                    });
+                    $('#resetItog').click(function () {
+                        $("#itogAvto").val('')
+                    });
+                });
+                var kuda = 1;
+
+                function addVesTo() {
+                    let ves = $("#ves").val();
+
+                    if (ves < 0) {
+                        alert('На весах отрицательное число обнулите ве или используйте дрейф');
+                    } else {
+                        $("#ves" + kuda).val(ves);
+                        kuda++;
+                        if (kuda > 2) {
+                            kuda = 1;
+                        }
+                    }
+                }
+
+                var status = 0;
+
+                function blinke_funk() {
+
+                    if (status == 1) {
+                        $("#yellowVezdAvto").css('background-color', '#ffff006b');
+                        $("#yellowViezdAvto").css('background-color', '#ffff006b');
+                        status = 0;
+                    } else {
+                        $("#yellowVezdAvto").css('background-color', 'yellow');
+                        $("#yellowViezdAvto").css('background-color', 'yellow');
+                        status = 1;
+                    }
+                }
+
+                setInterval(blinke_funk, 1000);
+
+            </script>
+
+
+            <div id="panel2" class="tab-pane fade"
+                 style="background-color: #000306; min-height: 85vh; padding-left: 1%;">
+
+
+                <h3 style="color: white">Измерение на весах - железнодопожные весы</h3>
+                <div class="row" style="width: 98vw;">
+                    <div class="col-md-6" id="for_disabled2">
+
+
+                        <form style="color: white;">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <div class="form-row border">
+                                        <div class="form-group col-md-7">
+                                            <label for="Npricepa">Номер вагона</label>
+                                            <input type="text" class="form-control" id="Npricepa">
+                                        </div>
+
+                                    </div>
+                                </div>
+
 
                             </div>
-              <div style=" height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;"> Camera 3
-              <video style="width: 100%; " controls  src="https://r3---sn-4g5ednss.googlevideo.com/videoplayback?expire=1579047397&ei=hQUeXqm4L7qGir4P16-tOA&ip=209.107.210.49&id=o-AFQ8gZQ53ClwR8Z5oMcH4jGD7mC7APZuMpQXcZqK996c&itag=18&source=youtube&requiressl=yes&vprv=1&mime=video%2Fmp4&gir=yes&clen=1404131031&ratebypass=yes&dur=15306.222&lmt=1501170431197004&fvip=3&fexp=23842630&c=WEB&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=ALgxI2wwRQIgIG16IWlKVXtCE6oJgL3qz9VEtL4m7sajBD2x4BGwVcUCIQCbfmik4-sKb9TX4kwvt5qPJ0SX5-OAnRTn7tNrFFWQgA%3D%3D&video_id=JHAcW9cU0mY&title=4K+Scenic+Drive+-+4+HRS+Relaxation+Video+with+Music+-+King+Ridge+Road%2C+California&rm=sn-vgqels7s&req_id=a199ec72f71ca3ee&ipbypass=yes&redirect_counter=2&cm2rm=sn-cxauxaxjvh-hn9e77k&cms_redirect=yes&mip=178.120.62.118&mm=30&mn=sn-4g5ednss&ms=nxu&mt=1579025674&mv=m&mvi=2&pl=21&lsparams=ipbypass,mip,mm,mn,ms,mv,mvi,pl&lsig=AHylml4wRQIhAMPcCs4lpG3V2O3c06Gsz_Y8lJfIhpmeBKmEQcX98ahLAiA25XJlyQvQEoUCJiBOqiUdrayvFDthJHhdNSTvRyUq2g=="></video>
-
-              </div>
-          </div>
-      </div>
-  </div>
-
-
-
-
-
-<script>
-$("#kudaAvtoBool").change(function() {
-    if(this.checked) {
-      $('#nakladnay').attr('required',true);
-    }else{
-        $('#nakladnay').removeAttr('required');
-    }
-});
-
-
-    $(document).ready(function() {
-        $("#addVes1").click(function () {
-            $("#itogAvto").val($('#ves1').val())
-        });
-        $("#addVes2").click(function () {
-            $("#itogAvto").val($('#ves2').val())
-        });
-        $('#resetItog').click(function () {
-        $("#itogAvto").val('')
-        });
-    });
-var kuda= 1;
-    function addVesTo() {
-    let ves =  $("#ves").val();
-
-    if(ves<0){
-        alert('На весах отрицательное число обнулите ве или используйте дрейф');
-    }else{
-        $("#ves"+kuda).val(ves);
-        kuda++;
-        if(kuda>2){
-            kuda=1;
-        }
-    }
-    }
-    var status=0;
-    function blinke_funk() {
-
-    if(status==1){
-        $("#yellowVezdAvto").css('background-color','#ffff006b');
-        $("#yellowViezdAvto").css('background-color','#ffff006b');
-        status=0;
-    }else{
-        $("#yellowVezdAvto").css('background-color','yellow');
-        $("#yellowViezdAvto").css('background-color','yellow');
-        status=1;
-    }
-    }
-    setInterval (blinke_funk, 1000);
-
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div id="panel2" class="tab-pane fade" style="background-color: #000306; min-height: 85vh; padding-left: 1%;">
-
-
-
-        <h3 style="color: white">Измерение на весах - железнодопожные весы</h3>
-        <div class="row" style="width: 98vw;">
-          <div class="col-md-6" id="for_disabled2">
-
-
-
-              <form style="color: white;">
-                  {% csrf_token %}
-  <div class="form-row">
-<div class="form-group col-md-6"  >
-    <div class="form-row border">
-    <div class="form-group col-md-7">
-      <label for="Npricepa">Номер вагона</label>
-      <input type="text" class="form-control" id="Npricepa">
-    </div>
-
-    </div>
-</div>
-
-
-  </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3"></div>
-  <div class="form-group col-md-6">
-    <label for="nakladnayPricep">Номер накладной</label>
-    <input type="text" class="form-control" id="nakladnayVagon" pattern="([0-9]{7})" required  maxlength='7' placeholder="1234">
-  </div>
-                    </div>
-    <div class="form-row">
-    <div class="form-group col-md-4">
-      <label for="inVesVagon">Вагон на весах</label>
-       <input type="text" class="form-control bg-danger" id="inVesVagon" value="нет" readonly>
-    </div>
-         <div class="form-group col-md-4">
-      <label for="kudaVagon">Направление движения</label>
-      <input type="text" class="form-control" id="kudaVagon" value="нет" readonly>
-    </div>
-    <div class="form-group col-md-4">
-      <label for="gudVagon">Вагон расположен хорошо</label>
-      <input type="text" class="form-control bg-warning" id="gudVagon" value="отсутсвует" readonly>
-    </div>
-  </div>
-
-
-
-  <div class="form-row">
-    <div class="form-group col-md-4 border ">
-      <label for="vesVagon">Вес on-line, кг</label>
-      <input type="number" class="form-control" value="0.0" step="0.1" id="vesVagon">
-         <input class="btn btn-success" type="button" onclick="addVesToVagon()" value="Измерить" />
-        <input class="btn btn-secondary"  type="button" value="Обнулить" />
-    </div>
-
-        <div class="form-group col-md-4 border">
-      <label for="itogVagon">ИТОГ, кг</label>
-      <input type="number" class="form-control" id="itogVagon" value="0.0" disabled>
-    </div>
-
-      <div class="form-group col-md-2 border">
-      <label for="ves1Vagon">Измерение 1, кг</label>
-      <input type="number" class="form-control" id="ves1Vagon" value="123.0" disabled>
-          <input class="btn btn-success" type="button" id="addVes1Vagon" value="применить" />
-    </div>
-    <div class="form-group col-md-2 border">
-      <label for="ves2Vagon">Измерение 2, кг</label>
-      <input type="number" class="form-control" id="ves2Vagon" value="125.12" disabled>
-        <input class="btn btn-success"  type="button" id="addVes2Vagon" value="применить" />
-    </div>
-  </div>
-
-  <button type="submit" class="btn btn-primary">Отправить</button>
-</form>
-
-
-              <div class="row border" style="color: white; min-height: 20%; margin-top: 2%;">
-                  <div class="col-md-4 border text-center" >Светофор на въезд</div>
-                  <div class="col-md-4 border"> <button class="btn-success" style="margin: 2%;" >Разрешить въезд</button> <button class="btn-danger" style="margin: 2%;" >Запретить въезд</button>  </div>
-                  <div class="col-md-4 border"><button class="btn-warning disabled" style="margin: 2%;" >Выключить светофор</button>
-                   <button class="btn-success" style="margin: 2%;">Включить светофор</button>
-                  </div>
-                  </div>
-
-<div class="row border" style="color: white; min-height: 20%;">
-                  <div class="col-md-4 border text-center">светофор на выеезд </div>
-                  <div class="col-md-4 border"> <button class="btn-success" style="margin: 2%;" >Разрешить выезд</button> <button class="btn-danger" style="margin: 2%;" >Запретить выезд</button>  </div>
-                  <div class="col-md-4 border"><button class="btn-warning disabled" style="margin: 2%;" >Выключить светофор</button>
-                   <button class="btn-success" style="margin: 2%;">Включить светофор</button>
-                  </div>
-              </div>
-
-
-
-
-          </div>
-          <div class="col-md-3 text-center">
-               <div style="height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;">
-                   <video style="width: 100%; " controls src="{% static 'video/train.mp4' %}"></video>
-
-  Video
-</div>
-              <div style=" height: 35vh; max-width: 95%;  margin: auto; margin-top: 2%;color: #1b1e21;">
-            <div style="background-color: honeydew;  display: inline-block; height: 100%; width: 50%;">
-            Сфетофор на выезд
-                <div class="rounded-circle" id="redViezdVagon" style="background-color: #ff000033; width: 50%; min-height:30%; margin-left: 20%;"></div>
-                 <div class="rounded-circle" id="yellowViezdVagon" style="background-color: #ffff006b; width: 50%; min-height:30%; margin-left: 20%;"></div>
-                <div class="rounded-circle" id="greenViezdVagon" style="background-color: #0080003d; width: 50%; min-height:30%; margin-left: 20%;"></div>
-            </div>
-            <div class="border"  style="background-color: honeydew; display: inline-block; float: left; height: 100%; width: 50%;">
-            Светофор на въезд
-                 <div class="rounded-circle" id="redVezdVagon" style="background-color: #ff000033; width: 50%; min-height:30%; margin-left: 20%;"></div>
-                 <div class="rounded-circle" id="yellowVezdVagon" style="background-color: #ffff006b; width: 50%; min-height:30%; margin-left: 20%;"></div>
-                <div class="rounded-circle" id="greenVezdVagon" style="background-color: #0080003d; width: 50%; min-height:30%; margin-left: 20%;"></div>
-            </div>
-</div>
-          </div>
-
-
-          <div class="col-md-3 text-center">
-                            <div style="height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;"> <video style="width: 100%; " controls src="https://r2---sn-4g5ednsz.googlevideo.com/videoplayback?expire=1579047092&ei=VAQeXt7WCI6U1gKPma7oDA&ip=217.163.23.136&id=o-AEbCinb--KRbV29CriEMX14p4PiBXLxSmAoWN38UFXfG&itag=43&source=youtube&requiressl=yes&vprv=1&mime=video%2Fwebm&gir=yes&clen=58343052&ratebypass=yes&dur=0.000&lmt=1540862084182967&fvip=2&fexp=23812955,23842630&c=WEB&txp=5511222&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=ALgxI2wwRQIhAIruhU8NE8-mwLomYlYDRG2HcqtLUTYhCtyT_QAB9Gy1AiAAiGRzN0R1mvIS1ntsbNoYZWDaTD9q8w-ej6H3ehDxcQ%3D%3D&video_id=atyvdC15HFA&title=Moby+-+Everloving&redirect_counter=1&cm2rm=sn-4g5ess7l&req_id=cb4f046e1e10a3ee&cms_redirect=yes&mip=178.120.62.118&mm=34&mn=sn-4g5ednsz&ms=ltu&mt=1579025442&mv=m&mvi=1&pl=21&lsparams=mip,mm,mn,ms,mv,mvi,pl&lsig=AHylml4wRQIhAL73Uw_wraJvn5X3paMPk2A6OKCVcCf6E4O3ixB581hZAiA-lrvk7uLcUuB9jbAml1fI0xIswXg8CGdBEpjKj6606g=="></video>
-
-  Video
+                            <div class="form-row">
+                                <div class="form-group col-md-3"></div>
+                                <div class="form-group col-md-6">
+                                    <label for="nakladnayPricep">Номер накладной</label>
+                                    <input type="text" class="form-control" id="nakladnayVagon" pattern="([0-9]{7})"
+                                           required maxlength='7' placeholder="1234">
+                                </div>
                             </div>
-              <div style=" height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;">  <video style="width: 100%; " controls src="{% static 'video/train.mp4' %}"></video>
-
-  Video
-              </div>
-          </div>
-      </div>
-
-
-
-
-
-
-</div>
-
-
-
-</div>
-
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="inVesVagon">Вагон на весах</label>
+                                    <input type="text" class="form-control bg-danger" id="inVesVagon" value="нет"
+                                           readonly>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="kudaVagon">Направление движения</label>
+                                    <input type="text" class="form-control" id="kudaVagon" value="нет" readonly>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="gudVagon">Вагон расположен хорошо</label>
+                                    <input type="text" class="form-control bg-warning" id="gudVagon" value="отсутсвует"
+                                           readonly>
+                                </div>
+                            </div>
 
 
-<script>
-    $(document).ready(function() {
-        $("#addVes1Vagon").click(function () {
-            $("#itogVagon").val($('#ves1Vagon').val())
-        });
-        $("#addVes2Vagon").click(function () {
-            $("#itogVagon").val($('#ves2Vagon').val())
-        });
-    });
-var kudaV= 1;
-    function addVesToVagon() {
-    let ves =  $("#vesVagon").val();
+                            <div class="form-row">
+                                <div class="form-group col-md-4 border ">
+                                    <label for="vesVagon">Вес on-line, кг</label>
+                                    <input type="number" class="form-control" value="0.0" step="0.1" id="vesVagon">
+                                    <input class="btn btn-success" type="button" onclick="addVesToVagon()"
+                                           value="Измерить"/>
+                                    <input class="btn btn-secondary" type="button" value="Обнулить"/>
+                                </div>
 
-    if(ves<0){
-        alert('На весах отрицательное число обнулите ве или используйте дрейф');
-    }else{
-        $("#ves"+kudaV+"Vagon").val(ves);
-        kudaV++;
-        if(kudaV>2){
-            kudaV=1;
-        }
-    }
-    }
-    var statusV=0;
-    function blinke_funkV() {
-    if(chatSocketClose){
+                                <div class="form-group col-md-4 border">
+                                    <label for="itogVagon">ИТОГ, кг</label>
+                                    <input type="number" class="form-control" id="itogVagon" value="0.0" disabled>
+                                </div>
 
-         $('#element').toast('show');
-    }
-    if(statusV==1){
-        $("#yellowVezdVagon").css('background-color','#ffff006b');
-        $("#yellowViezdVagon").css('background-color','#ffff006b');
-        statusV=0;
-    }else{
-        $("#yellowVezdVagon").css('background-color','yellow');
-        $("#yellowViezdVagon").css('background-color','yellow');
-        statusV=1;
-    }
-    }
-    setInterval (blinke_funkV, 1000);
+                                <div class="form-group col-md-2 border">
+                                    <label for="ves1Vagon">Измерение 1, кг</label>
+                                    <input type="number" class="form-control" id="ves1Vagon" value="123.0" disabled>
+                                    <input class="btn btn-success" type="button" id="addVes1Vagon" value="применить"/>
+                                </div>
+                                <div class="form-group col-md-2 border">
+                                    <label for="ves2Vagon">Измерение 2, кг</label>
+                                    <input type="number" class="form-control" id="ves2Vagon" value="125.12" disabled>
+                                    <input class="btn btn-success" type="button" id="addVes2Vagon" value="применить"/>
+                                </div>
+                            </div>
 
-</script>
-
-{##}
-{#<textarea id="chat-log" cols="100" rows="20"></textarea><br/>#}
-{#    <input id="chat-message-input" type="text" size="100"/><br/>#}
-{#    <input id="chat-message-submit" type="button" value="Send"/>#}
-{##}
-{#<input type="submit" class="btn btn-danger" onclick="connect()" value="connect to server"/>#}
-
-{##}
-{#<script>#}
-{##}
-{#    var roomName = 'wert';#}
-{#    var chatSocketClose=false;#}
-{#    var chatSocketCOpen=false;#}
-{#    var chatSocket;#}
-{#function connect() {#}
-{##}
-{#if(!chatSocketCOpen){#}
-{#                    chatSocket = new WebSocket(#}
-{#                     'ws://' + window.location.host + '/ws/');#}
-{#}#}
-{#  chatSocket.onopen = function() {#}
-{#             chatSocketCOpen= true;#}
-{#             chatSocketClose=false;#}
-{#             $("#statusConnect").html('<span class="badge badge-success" style="width: 100%;">OnLINE Server</span>');#}
-{#             $("#noconnectError").hide();#}
-{#             $("#for_disabled1").removeClass('disabledB');#}
-{#             $("#for_disabled2").removeClass('disabledB');#}
-{#               };#}
-{#    chatSocket.onmessage = function(e) {#}
-{#        var data = JSON.parse(e.data);#}
-{#        var message = data['message'];#}
-{#        document.querySelector('#chat-log').value += (message + '\n');#}
-{#        alert('new message');#}
-{#    };#}
-{##}
-{#    chatSocket.onclose = function(e) {#}
-{#        console.error('Chat socket closed unexpectedly');#}
-{#        chatSocketClose=true;#}
-{#        chatSocketCOpen= false;#}
-{#        $("#statusConnect").html('<span class="badge badge-danger" style="width: 100%;">OFFLINE Server</span>');#}
-{#        $("#noconnectError").show();#}
-{#        $("#for_disabled1").addClass('disabledB');#}
-{#        $("#for_disabled2").addClass('disabledB');#}
-{#    };#}
-    {##}
-    {#document.querySelector('#chat-message-input').focus();#}
-    {#document.querySelector('#chat-message-input').onkeyup = function(e) {#}
-    {#    if (e.keyCode === 13) {  // enter, return#}
-    {#        document.querySelector('#chat-message-submit').click();#}
-    {#    }#}
-    {#};#}
-    {##}
-    {#document.querySelector('#chat-message-submit').onclick = function(e) {#}
-    {#    var messageInputDom = document.querySelector('#chat-message-input');#}
-    {#    var message = messageInputDom.value;#}
-    {#    chatSocket.send(JSON.stringify({#}
-    {#        'message': message#}
-    {#    }));#}
-    {##}
-    {#    messageInputDom.value = '';#}
-    {#};#}
-{##}
-{##}
-{#    }#}
-{##}
-{##}
-{#connect();#}
-{##}
-{#</script>#}
+                            <button type="submit" class="btn btn-primary">Отправить</button>
+                        </form>
 
 
+                        <div class="row border" style="color: white; min-height: 20%; margin-top: 2%;">
+                            <div class="col-md-4 border text-center">Светофор на въезд</div>
+                            <div class="col-md-4 border">
+                                <button class="btn-success" style="margin: 2%;">Разрешить въезд</button>
+                                <button class="btn-danger" style="margin: 2%;">Запретить въезд</button>
+                            </div>
+                            <div class="col-md-4 border">
+                                <button class="btn-warning disabled" style="margin: 2%;">Выключить светофор</button>
+                                <button class="btn-success" style="margin: 2%;">Включить светофор</button>
+                            </div>
+                        </div>
+
+                        <div class="row border" style="color: white; min-height: 20%;">
+                            <div class="col-md-4 border text-center">светофор на выеезд</div>
+                            <div class="col-md-4 border">
+                                <button class="btn-success" style="margin: 2%;">Разрешить выезд</button>
+                                <button class="btn-danger" style="margin: 2%;">Запретить выезд</button>
+                            </div>
+                            <div class="col-md-4 border">
+                                <button class="btn-warning disabled" style="margin: 2%;">Выключить светофор</button>
+                                <button class="btn-success" style="margin: 2%;">Включить светофор</button>
+                            </div>
+                        </div>
 
 
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div style="height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;">
+                            cam 1
+                            <video style="width: 100%; " controls src="{% static 'video/train.mp4' %}"></video>
+                        </div>
+                        <div style=" height: 35vh; max-width: 95%;  margin: auto; margin-top: 2%;color: #1b1e21;">
+                            <div style="background-color: honeydew;  display: inline-block; height: 100%; width: 50%;">
+                                Сфетофор на выезд
+                                <div class="rounded-circle" id="redViezdVagon"
+                                     style="background-color: #ff000033; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                                <div class="rounded-circle" id="yellowViezdVagon"
+                                     style="background-color: #ffff006b; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                                <div class="rounded-circle" id="greenViezdVagon"
+                                     style="background-color: #0080003d; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                            </div>
+                            <div class="border"
+                                 style="background-color: honeydew; display: inline-block; float: left; height: 100%; width: 50%;">
+                                Светофор на въезд
+                                <div class="rounded-circle" id="redVezdVagon"
+                                     style="background-color: #ff000033; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                                <div class="rounded-circle" id="yellowVezdVagon"
+                                     style="background-color: #ffff006b; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                                <div class="rounded-circle" id="greenVezdVagon"
+                                     style="background-color: #0080003d; width: 50%; min-height:30%; margin-left: 20%;"></div>
+                            </div>
+                        </div>
+                    </div>
 
 
+                    <div class="col-md-3 text-center">
+
+                        <div style="height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;">
+                             cam 2
+                            <video style="width: 100%; " controls
+                                   src="https://r2---sn-4g5ednsz.googlevideo.com/videoplayback?expire=1579047092&ei=VAQeXt7WCI6U1gKPma7oDA&ip=217.163.23.136&id=o-AEbCinb--KRbV29CriEMX14p4PiBXLxSmAoWN38UFXfG&itag=43&source=youtube&requiressl=yes&vprv=1&mime=video%2Fwebm&gir=yes&clen=58343052&ratebypass=yes&dur=0.000&lmt=1540862084182967&fvip=2&fexp=23812955,23842630&c=WEB&txp=5511222&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=ALgxI2wwRQIhAIruhU8NE8-mwLomYlYDRG2HcqtLUTYhCtyT_QAB9Gy1AiAAiGRzN0R1mvIS1ntsbNoYZWDaTD9q8w-ej6H3ehDxcQ%3D%3D&video_id=atyvdC15HFA&title=Moby+-+Everloving&redirect_counter=1&cm2rm=sn-4g5ess7l&req_id=cb4f046e1e10a3ee&cms_redirect=yes&mip=178.120.62.118&mm=34&mn=sn-4g5ednsz&ms=ltu&mt=1579025442&mv=m&mvi=1&pl=21&lsparams=mip,mm,mn,ms,mv,mvi,pl&lsig=AHylml4wRQIhAL73Uw_wraJvn5X3paMPk2A6OKCVcCf6E4O3ixB581hZAiA-lrvk7uLcUuB9jbAml1fI0xIswXg8CGdBEpjKj6606g=="></video>
+                        </div>
+                        <div style=" height: 35vh; max-width: 95%; background-color: aliceblue; margin: auto; margin-top: 2%; color: #1b1e21;">
+                            cam 3
+                            <video style="width: 100%; " controls src="{% static 'video/train.mp4' %}"></video>
+                        </div>
+                    </div>
+                </div>
 
 
+            </div>
 
 
-<style>
-    * {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        </div>
 
-    .video {
-      -o-object-fit: cover;
-      object-fit: cover;
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-    }
 
-  </style>
+        <script>
+            $(document).ready(function () {
+                $("#addVes1Vagon").click(function () {
+                    $("#itogVagon").val($('#ves1Vagon').val())
+                });
+                $("#addVes2Vagon").click(function () {
+                    $("#itogVagon").val($('#ves2Vagon').val())
+                });
+            });
+            var kudaV = 1;
+
+            function addVesToVagon() {
+                let ves = $("#vesVagon").val();
+
+                if (ves < 0) {
+                    alert('На весах отрицательное число обнулите ве или используйте дрейф');
+                } else {
+                    $("#ves" + kudaV + "Vagon").val(ves);
+                    kudaV++;
+                    if (kudaV > 2) {
+                        kudaV = 1;
+                    }
+                }
+            }
+
+            var statusV = 0;
+
+            function blinke_funkV() {
+                if (chatSocketClose) {
+
+                    $('#element').toast('show');
+                }
+                if (statusV == 1) {
+                    $("#yellowVezdVagon").css('background-color', '#ffff006b');
+                    $("#yellowViezdVagon").css('background-color', '#ffff006b');
+                    statusV = 0;
+                } else {
+                    $("#yellowVezdVagon").css('background-color', 'yellow');
+                    $("#yellowViezdVagon").css('background-color', 'yellow');
+                    statusV = 1;
+                }
+            }
+
+            setInterval(blinke_funkV, 1000);
+
+        </script>
+
+        {##}
+        {#<textarea id="chat-log" cols="100" rows="20"></textarea><br/>#}
+        {#    <input id="chat-message-input" type="text" size="100"/><br/>#}
+        {#    <input id="chat-message-submit" type="button" value="Send"/>#}
+        {##}
+        {#<input type="submit" class="btn btn-danger" onclick="connect()" value="connect to server"/>#}
+
+        {##}
+        {#<script>#}
+        {##}
+        {#    var roomName = 'wert';#}
+        {#    var chatSocketClose=false;#}
+        {#    var chatSocketCOpen=false;#}
+        {#    var chatSocket;#}
+        {#function connect() {#}
+        {##}
+        {#if(!chatSocketCOpen){#}
+        {#                    chatSocket = new WebSocket(#}
+        {#                     'ws://' + window.location.host + '/ws/');#}
+        {#}#}
+        {#  chatSocket.onopen = function() {#}
+        {#             chatSocketCOpen= true;#}
+        {#             chatSocketClose=false;#}
+        {#             $("#statusConnect").html('<span class="badge badge-success" style="width: 100%;">OnLINE Server</span>');#}
+        {#             $("#noconnectError").hide();#}
+        {#             $("#for_disabled1").removeClass('disabledB');#}
+        {#             $("#for_disabled2").removeClass('disabledB');#}
+        {#               };#}
+        {#    chatSocket.onmessage = function(e) {#}
+        {#        var data = JSON.parse(e.data);#}
+        {#        var message = data['message'];#}
+        {#        document.querySelector('#chat-log').value += (message + '\n');#}
+        {#        alert('new message');#}
+        {#    };#}
+        {##}
+        {#    chatSocket.onclose = function(e) {#}
+        {#        console.error('Chat socket closed unexpectedly');#}
+        {#        chatSocketClose=true;#}
+        {#        chatSocketCOpen= false;#}
+        {#        $("#statusConnect").html('<span class="badge badge-danger" style="width: 100%;">OFFLINE Server</span>');#}
+        {#        $("#noconnectError").show();#}
+        {#        $("#for_disabled1").addClass('disabledB');#}
+        {#        $("#for_disabled2").addClass('disabledB');#}
+        {#    };#}
+        {##}
+        {#document.querySelector('#chat-message-input').focus();#}
+        {#document.querySelector('#chat-message-input').onkeyup = function(e) {#}
+        {#    if (e.keyCode === 13) {  // enter, return#}
+        {#        document.querySelector('#chat-message-submit').click();#}
+        {#    }#}
+        {#};#}
+        {##}
+        {#document.querySelector('#chat-message-submit').onclick = function(e) {#}
+        {#    var messageInputDom = document.querySelector('#chat-message-input');#}
+        {#    var message = messageInputDom.value;#}
+        {#    chatSocket.send(JSON.stringify({#}
+        {#        'message': message#}
+        {#    }));#}
+        {##}
+        {#    messageInputDom.value = '';#}
+        {#};#}
+        {##}
+        {##}
+        {#    }#}
+        {##}
+        {##}
+        {#connect();#}
+        {##}
+        {#</script>#}
+
+
+        <style>
+            * {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            .video {
+                -o-object-fit: cover;
+                object-fit: cover;
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+            }
+
+        </style>
 
 
 

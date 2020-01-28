@@ -16,7 +16,11 @@
     <div class="container-fluid"
          style="padding: 0%;margin:0%;background-color: #000306; min-height: 85vh; color: white; ">
 
-        <h3 style="color: white">Таблица контрагентов</h3>
+        <h3 style="color: white">Таблица контрагентов ||
+            <button data-toggle="modal" data-target="#modalForm" class=" btn btn-success ">Добавить</button>
+            ||| <a
+                    href="{% url 'sklad:start' %}" class=" btn btn-primary ">назад</a></h3>
+        </h3>
         <table data-toggle="table" data-pagination="true" data-search="true" style="color: white; text-align: center;">
             <thead>
             <tr>
@@ -37,8 +41,8 @@
                 <tr>
                     <td>{{ a.id }}</td>
                     <td>{{ a.unp }}</td>
-                    <td>{{ a.name}}</td>
-                    <td>{{ a.date_add}}</td>
+                    <td>{{ a.name }}</td>
+                    <td>{{ a.date_add }}</td>
                     <td>{{ a.date_update }}</td>
                     <td>{{ a.address }}</td>
                     <td>{{ a.description }}</td>
@@ -46,6 +50,57 @@
             {% endfor %}
             </tbody>
         </table>
+
+        <!--=================================================================================================== -->
+        <!-- Modal -->
+        <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="modalForm"
+             aria-hidden="true" style="color: black" >
+            <div class="modal-dialog" role="document" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalForm">Добавление контрагента</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" >
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Название</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                       placeholder="ООО МВЛАБ ">
+                            </div>
+                             <div class="form-group">
+                                <label for="unp">УНП</label>
+                                <input type="number" class="form-control" id="unp" name="unp"
+                                       placeholder="46456743456 ">
+                            </div>
+                             <div class="form-group">
+                                <label for="address-city">Город</label>
+                                <input type="text" class="form-control" id="address-city" name="address-city"
+                                       placeholder="Минск">
+                            </div>
+                             <div class="form-group">
+                                <label for="address-street">улица/переулок</label>
+                                <input type="text" class="form-control" id="address-street" name="address-street"
+                                       placeholder="Железнодорожная 27В ">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">описание</label>
+                                <textarea type="text" class="form-control" id="description" name="description"
+                                          placeholder="компания разработчик программного обеспечения "></textarea>
+                            </div>
+                             <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">отмена</button>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--=================================================================================================== -->
 
     </div>
 

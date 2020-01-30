@@ -5,18 +5,71 @@
 
 
 {% block content %}
-<div class="container-fluid" style="padding: 0%;margin:0%;background-color: #000306; min-height: 85vh; color: white; ">
-<h3>Заполнение контрагента для автотранспорта | <a href="{% url 'sklad:start' %}" class="btn btn-primary">НАЗАД</a> </h3>
-    <h4>Госномер: {{ auto.number }}</h4>
-    <h4>Номер накладной: {{ auto.nakladnaya }} </h4>
-    <h4>дата и время въезда: {{ auto.last_in }}</h4>
-     <h4>дата и время выезда: {{ auto.last_out }}</h4>
-    <h4>Вес на въезде: {{ auto.ves_in }} кг</h4>
-    <h4>Вес на выезде: {{ auto.ves_out }} кг</h4>
-    <h4>Нетто: {{ auto.netto_last }} кг</h4>
-<form>
-
-</form>
-
-</div>
+    <div class="container-fluid"
+         style="padding: 0%;margin:0%;background-color: #000306; min-height: 85vh; color: white; ">
+        <h3>Заполнение контрагента для автотранспорта | <a href="{% url 'sklad:start' %}"
+                                                           class="btn btn-primary">НАЗАД</a></h3>
+        <div class="row">
+            <div class="col-sm">
+                <h4>Госномер: {{ auto.number }}</h4>
+                <h4>Номер накладной: {{ auto.nakladnaya }} </h4>
+                <h4>дата и время въезда: {{ auto.last_in }}</h4>
+                <h4>дата и время выезда: {{ auto.last_out }}</h4>
+                <h4>Вес на въезде: {{ auto.ves_in }} кг</h4>
+                <h4>Вес на выезде: {{ auto.ves_out }} кг</h4>
+                <h4>Нетто: {{ auto.netto_last }} кг</h4>
+            </div>
+            <div class="col-sm">
+                <form>
+                    {% csrf_token %}
+                    <div class="form-group ">
+                        <label class="d-block" for="fname">Фамилия водителя</label>
+                        <input onkeyup="valid(this)" type="text" class="form-control d-inline" id="fname" name="fname"
+                               style="width: 80%;"
+                               placeholder="Петров" required> <span id="fname_sp" class="badge badge-danger d-inline">X</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="d-block" for="Nplist">Номер путевого листа</label>
+                        <input onkeyup="valid(this)" type="number" class="form-control d-inline" id="Nplist"
+                               name="Nplist" style="width: 80%;"
+                               placeholder="6545674" required> <span id="Nplist_sp" class="badge badge-danger d-inline">X</span>
+                    </div>
+                    <div class="form-group ">
+                        <label class="d-block" for="naklad">Накладная</label>
+                        <input onkeyup="valid(this)" type="number" class="form-control d-inline" id="naklad"
+                                {% if auto.nakladnaya %} value="{{ auto.nakladnaya }}" {% endif %} name="naklad"
+                               style="width: 80%;"
+                               placeholder="05943684" required> <span id="naklad_sp" class="badge badge-danger d-inline">X</span>
+                    </div>
+                <div class="form-group ">
+                        <label class="d-block" for="naklad">Контрагент</label>
+                        <select  type="number" class="form-control d-inline" id="agent"
+                               name="agent"
+                               style="width: 80%;"
+                                required>
+                            <option></option>
+                        </select>
+                            <span id="agent_sp" class="badge badge-danger d-inline">X</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+    function valid(event) {
+            //switch (event.id) {
+              //  case "fname":
+                    if(event.value.length>2){
+                        $("#"+event.id+"_sp").removeClass('badge-danger');
+                        $("#"+event.id+"_sp").addClass('badge-success');
+                        $("#"+event.id+"_sp").html("V");
+                    }else{
+                         $("#"+event.id+"_sp").removeClass('badge-success ');
+                        $("#"+event.id+"_sp").addClass('badge-danger');
+                        $("#"+event.id+"_sp").html('X');
+                    }
+                 //   break;
+         //   }
+    }
+    </script>
 {% endblock %}

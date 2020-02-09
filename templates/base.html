@@ -40,6 +40,7 @@
             {% if request.user.client.user_role == "admin"   %}
                 <a  class="btn btn-primary" href="{% url 'vesovay:start' %}">Взвешивание</a>
                 <a  class="btn btn-primary" href="{% url 'sklad:start' %}">Склад</a>
+                <a  class="btn btn-primary" href="{% url 'sklad:settings' %}">Настройки</a>
             {% endif %}
             </div>
             <div class="col-md-7 top-add"> <h3>Пользователь :  {{ request.user.username }}</h3><h5>Роль :  {{ request.user.client.user_role }}</h5></div>

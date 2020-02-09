@@ -8,4 +8,5 @@ urlpatterns = [
     path('<int:id>/formaauto', StartSkladView.forma, name = 'formaauto'),
     path('/addagent', StartSkladView.addAgent, name = 'addagent'),
     path('addAgent', AddAgentView.as_view(), name='agentadd'),
+    path('settings', Setting.as_view(), name='settings'),
 ]

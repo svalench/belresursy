@@ -287,14 +287,14 @@
                     <div class="col-md-6" id="for_disabled2">
 
 
-                        <form style="color: white;">
+                        <form style="color: white;" action="{% url 'vesovay:addtrain' %}" method="post">
                             {% csrf_token %}
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <div class="form-row border">
                                         <div class="form-group col-md-7">
-                                            <label for="Npricepa">Номер вагона</label>
-                                            <input type="text" class="form-control" id="Npricepa">
+                                            <label for="Nvagon">Номер вагона</label>
+                                            <input type="text" class="form-control" name="Nvagon" id="Nvagon">
                                         </div>
 
                                     </div>
@@ -305,24 +305,30 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3"></div>
                                 <div class="form-group col-md-6">
-                                    <label for="nakladnayPricep">Номер накладной</label>
-                                    <input type="text" class="form-control" id="nakladnayVagon" pattern="([0-9]{7})"
+                                    <label for="nakladnayVagon">Номер накладной</label>
+                                    <input type="text" class="form-control" name="nakladnayVagon" id="nakladnayVagon" pattern="([0-9]{7})"
                                            required maxlength='7' placeholder="1234">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="inVesVagon">Вагон на весах</label>
-                                    <input type="text" class="form-control bg-danger" id="inVesVagon" value="нет"
+                                    <input type="text" class="form-control bg-danger" name="inVesVagon" id="inVesVagon" value="нет"
                                            readonly>
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label for="kudaVagon">Направление движения</label>
-                                    <input type="text" class="form-control" id="kudaVagon" value="нет" readonly>
-                                </div>
+{#                                <div class="form-group col-md-4">#}
+{#                                    <label for="kudaVagon">Направление движения</label>#}
+{#                                    <input type="text" class="form-control"  name="kudaVagon" id="kudaVagon" value="нет" readonly>#}
+{#                                </div>#}
+                                 <div class="form-group col-md-4 text-center">
+                                        <label>Направление движения въезд</label>
+                                        {#      <input type="text" class="form-control disabled" name="kudaAvto" id="kudaAvto" value="нет" >#}
+                                        <input type="checkbox" class="form-control " name="kudaVagon"
+                                               id="kudaVagon" checked="checked">
+                                    </div>
                                 <div class="form-group col-md-4">
                                     <label for="gudVagon">Вагон расположен хорошо</label>
-                                    <input type="text" class="form-control bg-warning" id="gudVagon" value="отсутсвует"
+                                    <input type="text" class="form-control bg-warning" name="gudVagon" id="gudVagon" value="отсутсвует"
                                            readonly>
                                 </div>
                             </div>
@@ -339,7 +345,7 @@
 
                                 <div class="form-group col-md-4 border">
                                     <label for="itogVagon">ИТОГ, кг</label>
-                                    <input type="number" class="form-control" id="itogVagon" value="0.0" disabled>
+                                    <input type="number" class="form-control" name="itogvagon"  id="itogvagon" value="" readonly>
                                 </div>
 
                                 <div class="form-group col-md-2 border">
@@ -437,10 +443,10 @@
         <script>
             $(document).ready(function () {
                 $("#addVes1Vagon").click(function () {
-                    $("#itogVagon").val($('#ves1Vagon').val())
+                    $("#itogvagon").val($('#ves1Vagon').val())
                 });
                 $("#addVes2Vagon").click(function () {
-                    $("#itogVagon").val($('#ves2Vagon').val())
+                    $("#itogvagon").val($('#ves2Vagon').val())
                 });
             });
             var kudaV = 1;

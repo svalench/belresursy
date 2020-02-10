@@ -8,7 +8,7 @@ from django.views.decorators import gzip
 from django.views.generic import TemplateView, FormView
 # Create your views here.
 from apps.vesovay.forms import VesAvtoForm
-from apps.vesovay.models import Auto
+from apps.vesovay.models import Auto, Vagon
 from vzveshivanie.views import AbsView
 from setting_common import USER_ROLES_SETTINGS
 from django.http import HttpResponse
@@ -98,6 +98,8 @@ class StartVesView(AbsAuthVesView):
         if(error==1):
             text = 'авто c номером '+nomer+' нет на территории'
             error_bool = True
+        if(error==2):
+            text = 'вагон c номером ' + nomer + ' нет на территории'
         context = {'error' : error_bool, "text_error" : text}
         return render(request, 'vesovay/index.html', context)
 
@@ -125,4 +127,29 @@ class AddVesCarView( AbsAuthVesView):
                 return redirect('vesovay:start')
             else:
                 return redirect('vesovay:by_erorr', error=1, nomer = nomer)
+
+
+class AddVesTrainView( AbsAuthVesView):
+    def post(self, request, *args, **kwargs):
+        form = self.request.POST
+        nomer = form['Nvagon']
+        if 'kudaVagon' in form:
+            on_teritory = True
+            last_in = datetime.now()
+            ves_in = form['itogvagon']
+            a = Vagon(number = nomer, status_in = on_teritory, ves_in = ves_in, last_in = last_in, nakladnaya=form['nakladnayVagon'])
+            a.save()
+            return redirect('vesovay:start')
+        else:
+            on_teritory = False
+            last_out = datetime.now()
+            ves_out = form['itogvagon']
+            a =Vagon.objects.filter(number=nomer)
+            af = a.last()
+            if(af):
+                netto =  float(getattr(af, 'ves_in')) -float(ves_out)
+                a.update(status_in = on_teritory, ves_out=ves_out, last_out=last_out,netto_last=netto)
+                return redirect('vesovay:start')
+            else:
+                return redirect('vesovay:by_erorr', error=2, nomer = nomer)
 

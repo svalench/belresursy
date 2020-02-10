@@ -69,7 +69,8 @@ class Pricep(models.Model):
 class Vagon(models.Model):
     id = models.AutoField(primary_key=True)
     agent = models.OneToOneField(Agent, on_delete=models.CASCADE, null=True)
-    number = models.DateTimeField('Номер', max_length=255)
+    number = models.CharField('Номер', max_length=255)
+    nakladnaya = models.CharField('Накладная', max_length=255, default=0)
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
     last_in = models.DateTimeField('время последнего въезда',  null=True)

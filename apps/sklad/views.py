@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 # Create your views here.
 from apps.sklad.models import Agent
-from apps.vesovay.models import Auto
+from apps.vesovay.models import Auto, Vagon
 from setting_common import USER_ROLES_SETTINGS
 from vzveshivanie.views import AbsView
 
@@ -43,7 +43,9 @@ class StartSkladView(AbsAuthSkladView):
 
     def get(self, request,**kwargs):
         auto = Auto.objects.all().order_by('id')
-        context = {'auto': auto}
+        vagon = Vagon.objects.all().order_by('id')
+        print(vagon)
+        context = {'auto': auto,'vagon':vagon}
         return render(request, self.template_name, context)
 
     def forma(request,id):

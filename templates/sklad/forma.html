@@ -47,7 +47,10 @@
                                name="agent"
                                style="width: 80%;"
                                 required>
-                            <option></option>
+                         <option value="0" selected disabled> Выберите контрагента</option>
+                            {% for ag in agent %}
+                            <option value="{{ ag.id }}"> {{ ag.name }} </option>
+                            {% endfor %}
                         </select>
                             <span id="agent_sp" class="badge badge-danger d-inline">X</span>
                     </div>

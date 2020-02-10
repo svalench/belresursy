@@ -44,14 +44,15 @@ class StartSkladView(AbsAuthSkladView):
     def get(self, request,**kwargs):
         auto = Auto.objects.all().order_by('id')
         vagon = Vagon.objects.all().order_by('id')
-        print(vagon)
         context = {'auto': auto,'vagon':vagon}
         return render(request, self.template_name, context)
 
     def forma(request,id):
         auto = Auto.objects.filter(id=id)
+        agent = Agent.objects.all().order_by('id')
         auto = auto[0]
-        context = {'auto': auto}
+        print(agent)
+        context = {'auto': auto,'agent':agent}
         return render(request, 'sklad/forma.html', context)
 
     def addAgent(request):
